@@ -1,0 +1,60 @@
+{
+  "name": "uca-front",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:8080",
+  "dependencies": {
+    "@material-ui/icons": "^1.0.0-beta.42",
+    "browser-request": "^0.3.3",
+    "eslint-plugin-react": "^7.7.0",
+    "history": "^4.7.2",
+    "material-ui": "^1.0.0-beta.41",
+    "material-ui-icons": "1.0.0-beta.36",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
+    "superagent": "^3.8.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "react-scripts": "^1.1.4",
+    "jest": "^22.4.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "plugin:react/recommended"
+    ],
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "react/style-prop-object": "error",
+      "react/no-will-update-set-state": [
+        2
+      ],
+      "react/require-optimization": [
+        2
+      ],
+      "react/sort-comp": [
+        2
+      ],
+      "no-console": [
+        2
+      ],
+      "react/no-unused-prop-types": [
+        2
+      ]
+    }
+  }
+}

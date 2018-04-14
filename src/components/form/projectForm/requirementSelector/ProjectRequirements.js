@@ -156,7 +156,7 @@ class ProjectRequirements extends React.Component {
           aria-label='Delete'
           enabled
           color='secondary'
-          onClick={() => onItemRemoval(index)}
+          onClick={index === 0 ? false : () => onItemRemoval(index)}
         >
           <DeleteIcon />
         </IconButton>

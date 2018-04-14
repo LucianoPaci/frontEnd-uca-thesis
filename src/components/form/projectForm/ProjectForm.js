@@ -44,13 +44,13 @@ class TextFields extends Component {
     super(props)
     this.state = {
       name: '',
-      multiline: '',
+      description: '',
       projectRequirements: [
         {
           role: '',
           carreer: '',
-          quantity: ''
-          // key: randomKey
+          quantity: '',
+          key: randomKey()
         }
       ]
     }
@@ -71,9 +71,9 @@ class TextFields extends Component {
     })
   }
 
-  handleMultilineChange = (event) => {
+  handleDescriptionChange = (event) => {
     this.setState({
-      multiline: event.target.value
+      description: event.target.value
     })
   }
 
@@ -144,8 +144,8 @@ class TextFields extends Component {
               label='Descripción'
               multiline
               rowsMax='20'
-              value={this.state.multiline}
-              onChange={this.handleMultilineChange}
+              value={this.state.description}
+              onChange={this.handleDescriptionChange}
               fullWidth
               style={{
                 padding: '0 0 10px 0'
@@ -175,7 +175,26 @@ class TextFields extends Component {
           </form>
 
           <div style={buttonTileStyle.container}>
-            <Button color='secondary'>Guardar</Button>
+            <Button
+              variant='rounded'
+              color='secondary'
+              onClick={() => {
+                console.log(JSON.stringify(this.state, null, 2))
+
+                // axios.post('/user', {
+                //   firstName: 'Fred',
+                //   lastName: 'Flintstone'
+                // })
+                // .then(function (response) {
+                //   console.log(response);
+                // })
+                // .catch(function (error) {
+                //   console.log(error);
+                // });
+              }}
+            >
+              Postear
+            </Button>
 
             <Button
               variant='fab'

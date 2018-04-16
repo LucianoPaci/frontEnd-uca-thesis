@@ -39,7 +39,7 @@ const buttonTileStyle = {
 }
 const randomKey = () => Math.random().toString()
 
-class TextFields extends Component {
+class ProjectForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -179,18 +179,18 @@ class TextFields extends Component {
               variant='rounded'
               color='secondary'
               onClick={() => {
+                let data = JSON.stringify(this.state, null, 2)
                 console.log(JSON.stringify(this.state, null, 2))
 
-                // axios.post('/user', {
-                //   firstName: 'Fred',
-                //   lastName: 'Flintstone'
-                // })
-                // .then(function (response) {
-                //   console.log(response);
-                // })
-                // .catch(function (error) {
-                //   console.log(error);
-                // });
+                // fetch('http://192.168.0.40:5000/', {
+                //   mode: 'no-cors',
+                //   method: 'POST',
+                //   headers: {
+                //     Accept: 'application/json',
+                //     'Content-Type': 'application/json'
+                //   },
+                //   body: data
+                // }).then((response) => console.log(response))
               }}
             >
               Postear
@@ -210,8 +210,8 @@ class TextFields extends Component {
   }
 }
 
-TextFields.propTypes = {
+ProjectForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(TextFields)
+export default withStyles(styles)(ProjectForm)

@@ -8,10 +8,10 @@ import registerServiceWorker from './registerServiceWorker'
 import createBrowserHistory from 'history/createBrowserHistory'
 import * as request from 'browser-request'
 import Layout from './containers/Layout'
-import ButtonAppBar from './components/ButtonAppBar'
-import PrincipalPage from './containers/PrincipalPage'
-import ProfilePage from './containers/ProfilePage'
-import ProjectPage from './containers/ProjectPage'
+import ButtonAppBar from './scenes/components/ButtonAppBar'
+import PrincipalPage from './scenes/containers/PrincipalPage'
+import ProfilePage from './scenes/containers/ProfilePage'
+import ProjectPage from './scenes/containers/ProjectPage'
 const history = createBrowserHistory()
 
 class UserPage extends React.Component {
@@ -49,33 +49,33 @@ class UserPage extends React.Component {
   }
 }
 
-class ConsultaPage extends React.Component {
-  render () {
-    return <h1>Soy una consulta</h1>
-  }
-}
+// class ConsultaPage extends React.Component {
+//   render () {
+//     return <h1>Soy una consulta</h1>
+//   }
+// }
 
-class ConsultaBusquedaPage extends React.Component {
-  render () {
-    return (
-      <div>
-        <h1>Que estas buscado?</h1>
-        <Link to={'/user/1234'}> ir al user </Link>
-      </div>
-    )
-  }
-}
+// class ConsultaBusquedaPage extends React.Component {
+//   render () {
+//     return (
+//       <div>
+//         <h1>Que estas buscado?</h1>
+//         <Link to={'/user/1234'}> ir al user </Link>
+//       </div>
+//     )
+//   }
+// }
 
 class NotFoundPage extends React.Component {
   render () {
     return <h1>PAGE NOT FOUND</h1>
   }
 }
-class InternalErrorPage extends React.Component {
-  render () {
-    return <h1>InternalError</h1>
-  }
-}
+// class InternalErrorPage extends React.Component {
+//   render () {
+//     return <h1>InternalError</h1>
+//   }
+// }
 
 ReactDOM.render(
   <Router history={history}>
@@ -87,8 +87,8 @@ ReactDOM.render(
             return <UserPage id={props.match.params.id} />
           }}
         />
-        <Route path='/consulta/:id' component={ConsultaPage} />
-        <Route exact={true} path='/' component={ConsultaBusquedaPage} />
+        {/* <Route path='/consulta/:id' component={ConsultaPage} />
+        <Route exact={true} path='/' component={ConsultaBusquedaPage} /> */}
         <Route path='/principal' component={PrincipalPage} />
         <Route path='/profile' component={ProfilePage} />
         <Route path='/project' component={ProjectPage} />

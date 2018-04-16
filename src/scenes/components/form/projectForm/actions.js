@@ -55,3 +55,9 @@ export const fetchProjectDetails = (projectUrl) => {
     })
   }
 }
+
+// export const postProject = (projectId, projectData) => {
+
+//   return (dispatch, getState, )
+
+// }

@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker'
 import createBrowserHistory from 'history/createBrowserHistory'
 import * as request from 'browser-request'
-import Layout from './containers/Layout'
+import Layout from './scenes/Layout/Layout'
 import ButtonAppBar from './scenes/components/ButtonAppBar'
-import PrincipalPage from './scenes/containers/PrincipalPage'
-import ProfilePage from './scenes/containers/ProfilePage'
-import ProjectPage from './scenes/containers/ProjectPage'
+import HomePage from './scenes/Home/HomePage'
+import ProfilePage from './scenes/Profile/ProfilePage'
+import ProjectPage from './scenes/Project/ProjectPage'
+import LoginPage from './scenes/containers/Login/LoginPage'
 const history = createBrowserHistory()
 
 class UserPage extends React.Component {
@@ -89,7 +90,8 @@ ReactDOM.render(
         />
         {/* <Route path='/consulta/:id' component={ConsultaPage} />
         <Route exact={true} path='/' component={ConsultaBusquedaPage} /> */}
-        <Route path='/principal' component={PrincipalPage} />
+        <Route path='/principal' component={HomePage} />
+        <Route path='/login' component={LoginPage} />
         <Route path='/profile' component={ProfilePage} />
         <Route path='/project' component={ProjectPage} />
         <Route path='/project/create' component={ProjectPage} />{' '}

@@ -4,7 +4,7 @@ import logo from './logo.svg'
 import './App.css'
 import { Link } from 'react-router-dom'
 import Typography from 'material-ui/Typography'
-import PrincipalPage from './containers/PrincipalPage'
+import HomePage from './scenes/Home/HomePage'
 import store from './store'
 import { Provider as ReduxProvider } from 'react-redux'
 

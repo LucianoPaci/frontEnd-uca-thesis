@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
-import { Router, Route, Redirect, Switch, Prove } from 'react-router'
+import { Router, Route, Redirect, Switch, Prove } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker'
 import createBrowserHistory from 'history/createBrowserHistory'
@@ -12,7 +12,7 @@ import ButtonAppBar from './scenes/components/ButtonAppBar'
 import HomePage from './scenes/Home/HomePage'
 import ProfilePage from './scenes/Profile/ProfilePage'
 import ProjectPage from './scenes/Project/ProjectPage'
-import LoginPage from './scenes/containers/Login/LoginPage'
+import LoginPage from './scenes/Login/LoginPage'
 const history = createBrowserHistory()
 
 class UserPage extends React.Component {
@@ -90,7 +90,7 @@ ReactDOM.render(
         />
         {/* <Route path='/consulta/:id' component={ConsultaPage} />
         <Route exact={true} path='/' component={ConsultaBusquedaPage} /> */}
-        <Route path='/principal' component={HomePage} />
+        <Route path='/home' component={HomePage} />
         <Route path='/login' component={LoginPage} />
         <Route path='/profile' component={ProfilePage} />
         <Route path='/project' component={ProjectPage} />

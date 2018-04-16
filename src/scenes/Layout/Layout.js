@@ -1,4 +1,3 @@
-
 import React, { Component, Fragment } from 'react'
 import ButtonAppBar from '../components/ButtonAppBar'
 import Grid from 'material-ui/Grid'
@@ -6,27 +5,28 @@ import Paper from 'material-ui/Paper'
 import NestedList from '../components/NestedList'
 import SocialFeedCards from '../components/SocialFeedCards'
 class Layout extends Component {
+  constructor () {
+    super()
+  }
 
-    constructor() {
-        super()
-    }
-
-render (){
-
+  render () {
     return (
-        <Fragment>
-            
-             <ButtonAppBar title = 'UcaApp' style = {{ position : 'fixed', top: 0, left:0, zIndex: 40, width: '100%'}}/>
+      <Fragment>
+        <ButtonAppBar
+          title='UcaApp'
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            zIndex: 40,
+            width: '100%'
+          }}
+        />
 
-                    <div style = {{paddingTop : '120px'}}>
-                        {this.props.children}
-                    </div>
-        </Fragment>
+        <div style={{ paddingTop: '120px' }}>{this.props.children}</div>
+      </Fragment>
     )
-}
-
-
-
+  }
 }
 
 export default Layout

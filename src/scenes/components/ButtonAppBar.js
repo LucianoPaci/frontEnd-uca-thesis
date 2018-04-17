@@ -58,13 +58,13 @@ class ButtonAppBar extends React.Component {
       <div style={this.props.style}>
         <AppBar position='static'>
           <Toolbar>
-            <IconButton
+            {/* <IconButton
               color='inherit'
               className={classes.menuButton}
               aria-label='Menu'
             >
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
             <Typography
               variant='title'
               color='inherit'

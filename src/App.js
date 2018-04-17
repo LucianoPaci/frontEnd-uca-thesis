@@ -1,33 +1,52 @@
 import React, { Component } from 'react'
-import client from './client'
-import logo from './logo.svg'
+import ReactDOM from 'react-dom'
+import client from './client' // ?? No borrar, puede servir de ejemplo
 import './App.css'
-import { Link } from 'react-router-dom'
-import Typography from 'material-ui/Typography'
-// import HomePage from './scenes/Home/HomePage'
+import { Link, Router, Route, Redirect, Switch, Prov } from 'react-router-dom'
 import store from './store'
 import { Provider as ReduxProvider } from 'react-redux'
+import * as request from 'browser-request'
+import Layout from './scenes/Layout/Layout'
+import HomePage from './scenes/Home/HomePage'
+import ProfilePage from './scenes/Profile/ProfilePage'
+import ProjectPage from './scenes/Project/ProjectPage'
+import LoginPage from './scenes/Login/LoginPage'
+import createBrowserHistory from 'history/createBrowserHistory'
+import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles'
+import { createMuiTheme } from 'material-ui'
+const history = createBrowserHistory()
 
-class App extends Component {
-  componentDidMount () {
-    client.getUserById(this.props.id)
-  }
+// verificar -> const store = persist(configureStore)()
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.id !== nextProps.id) {
-      this.getUserInfo(nextProps.id)
-    }
-  }
+// Verificar los colores
+// const colors = {
+//   darkBlue: '#039be5',
+//   opaqueGreen: '#7CB342'
+// }
+// const muiTheme = createMuiTheme({
+//   palette: {
+//     primary: colors.darkBlue,
+//     secondary: colors.opaqueGreen
+//   }
+// })
 
-  getUserInfo (id) {
-    client.getUserById(id, (error, response) => {
-      this.setState({ error, user: response })
-    })
-  }
-
-  render () {
-    return <div className='App' />
-  }
-}
+const App = () => (
+  <ReduxProvider store={store}>
+    {/* <MuiThemeProvider muiTheme={muiTheme}> */}
+    <Router history={history}>
+      <Layout>
+        <Switch>
+          <Route path='/home' component={HomePage} />
+          <Route path='/login' component={LoginPage} />
+          <Route path='/profile' component={ProfilePage} />
+          <Route path='/project' component={ProjectPage} />
+          <Route path='/project/create' component={ProjectPage} />{' '}
+          {/*Aca deberia ir al form de creacion de proyecto*/}
+        </Switch>
+      </Layout>
+    </Router>
+    {/* </MuiThemeProvider> */}
+  </ReduxProvider>
+)
 
 export default App

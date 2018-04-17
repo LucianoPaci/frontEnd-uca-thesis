@@ -11,10 +11,9 @@ import HomePage from './scenes/Home/HomePage'
 import ProfilePage from './scenes/Profile/ProfilePage'
 import ProjectPage from './scenes/Project/ProjectPage'
 import LoginPage from './scenes/Login/LoginPage'
-import createBrowserHistory from 'history/createBrowserHistory'
+import { history } from './store/history'
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles'
 import { createMuiTheme } from 'material-ui'
-const history = createBrowserHistory()
 
 // verificar -> const store = persist(configureStore)()
 

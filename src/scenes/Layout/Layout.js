@@ -4,6 +4,9 @@ import Grid from 'material-ui/Grid'
 import Paper from 'material-ui/Paper'
 import NestedList from '../components/NestedList'
 import SocialFeedCards from '../components/SocialFeedCards'
+
+// Tendria que acceder al store y preguntar si el user esta logeado
+// Si esta logeado, no deberia mostrar el ButtonAppBar
 class Layout extends Component {
   constructor () {
     super()

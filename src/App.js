@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import client from './client' // ?? No borrar, puede servir de ejemplo
 import './App.css'
 import { Link, Router, Route, Redirect, Switch, Prov } from 'react-router-dom'
-import store from './store'
+import configureStore from './store/configureStore'
 import { Provider as ReduxProvider } from 'react-redux'
 import * as request from 'browser-request'
 import Layout from './scenes/Layout/Layout'
@@ -28,6 +28,8 @@ import { createMuiTheme } from 'material-ui'
 //     secondary: colors.opaqueGreen
 //   }
 // })
+
+const store = configureStore
 
 const App = () => (
   <ReduxProvider store={store}>

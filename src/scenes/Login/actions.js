@@ -1,5 +1,5 @@
-import { userServices } from '../../services'
-import { history } from '../../store'
+import { userServices } from '../../services/userServices'
+import { history } from '../../store/history'
 export const LOGIN_REQUEST = 'USERS_LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'USERS_LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'USERS_LOGIN_FAILURE'

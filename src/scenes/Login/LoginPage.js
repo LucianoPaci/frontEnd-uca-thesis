@@ -3,6 +3,7 @@ import Typography from 'material-ui/Typography'
 import { Paper, TextField, Card } from 'material-ui'
 import { PropTypes } from 'prop-types'
 import { Button, Icon } from 'material-ui'
+import { login } from './actions'
 
 const styles = {
   root: {
@@ -41,9 +42,9 @@ class LoginPage extends Component {
    * PropTypes
    */
 
-  static propTypes = {
-    defaultValues: PropTypes.object.isRequired
-  }
+  // static propTypes = {
+  //   defaultValues: PropTypes.object.isRequired
+  // }
 
   /**
    * Constructor
@@ -53,9 +54,6 @@ class LoginPage extends Component {
     super(props)
 
     this.state = {
-      // email: props.defaultValues.email || '',
-      // password: props.defaultValues.password || '',
-
       email: '',
       password: '',
       submitted: false
@@ -75,7 +73,47 @@ class LoginPage extends Component {
       password: event.target.value
     })
   }
-  // handleSubmitForm = (event) => {}
+  handleSubmitForm = (event) => {
+    event.preventDefault()
+    this.submitData()
+    /**
+     * preventDefault() method tells the user that if the 
+     * event does not get explicitly handled, its default action should not be taken 
+     * as it normally would be. 
+     * https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
+     */
+  }
+
+  submitData = () => {
+    const { email, password } = this.state
+
+    let emailError, passwordError
+
+    if (!email) {
+      emailError = 'missingEmail'
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      emailError = 'invalidEmail'
+    }
+
+    if (!password) {
+      passwordError = 'missingPassword'
+    }
+
+    if (emailError || passwordError) {
+      this.setState({
+        emailError,
+        passwordError
+      })
+    } else {
+      this.setState({
+        emailError: '',
+        passwordError: ''
+      })
+      // Llamado a la action de login
+
+      login(email, password)
+    }
+  }
   render () {
     // const { email, password } = this.state
     return (
@@ -91,6 +129,7 @@ class LoginPage extends Component {
                 style={styles.textField}
                 autoFocus
                 value={this.state.email}
+                error={this.emailError}
                 onChange={this.handleEmailChange}
               />
 
@@ -100,13 +139,16 @@ class LoginPage extends Component {
                 autoFocus
                 type='password'
                 value={this.state.password}
+                error={this.passwordError}
                 onChange={this.handlePasswordChange}
               />
 
               <Button
+                type='submit'
                 style={styles.buttonLogin}
                 variant='raised'
                 color='primary'
+                onClick={this.handleSubmitForm}
               >
                 Login
               </Button>

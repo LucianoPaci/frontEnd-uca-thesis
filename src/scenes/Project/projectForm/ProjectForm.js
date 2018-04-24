@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import MenuItem from 'material-ui/Menu/MenuItem'
 import { withStyles } from 'material-ui/styles'
@@ -7,7 +8,7 @@ import Grid from 'material-ui/Grid'
 import ProjectRequirements from './requirementSelector/ProjectRequirements'
 import { Typography } from 'material-ui'
 import Button from 'material-ui/Button'
-
+import { fetchProjects, fetchProjectDetails, postProject } from './actions'
 const styles = (theme) => ({
   container: {
     display: 'flex',
@@ -44,15 +45,15 @@ class ProjectForm extends Component {
     super(props)
     this.state = {
       name: '',
-      description: '',
-      projectRequirements: [
-        {
-          role: '',
-          carreer: '',
-          quantity: '',
-          key: randomKey()
-        }
-      ]
+      description: ''
+      // projectRequirements: [
+      //   {
+      //     role: '',
+      //     carreer: '',
+      //     quantity: '',
+      //     key: randomKey()
+      //   }
+      // ]
     }
   }
 
@@ -64,6 +65,32 @@ class ProjectForm extends Component {
   //     index
   //   }
   // }
+
+  postProjectFromHere = () => {
+    fetch('/api/proyecto', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization:
+          'Bearer ' +
+          'eyJhbGciOiJIUzI1NiIsImlhdCI6MTUyNDQ1MDU4OCwiZXhwIjoxNTI0NDU0MTg4fQ.eyJpZCI6Nn0.vJyH_Z6FYM_CXKhbjHJ1a-Hur1fdR97I5wNdPklKf3g'
+        // Extraer el token del store y ponerlo ahi como {store.token}
+      },
+      body: JSON.stringify(this.state)
+    })
+      .then((response) => {
+        console.log(response)
+        if (!response.ok) {
+          return Promise.reject(new Error(response.statusText))
+        }
+        return response.json()
+      })
+      .then((body) => {
+        console.log(body)
+      })
+      .catch((error) => console.log(error))
+  }
 
   handleNameChange = (event) => {
     this.setState({
@@ -114,13 +141,13 @@ class ProjectForm extends Component {
 
   render () {
     const { classes } = this.props
-
+    const { isSearching, projectDetails, projects } = this.props
     console.log(this.state)
 
     // Tomo el state y lo guardo en una variable para luego hacer un mapeo de los componentes
     // que voy a renderizar
 
-    const { projectRequirements } = this.state
+    // const { projectRequirements } = this.state
 
     return (
       <Grid container justify='center' alignItems='center' spacing='40'>
@@ -163,7 +190,9 @@ class ProjectForm extends Component {
 
              */}
 
-            {projectRequirements.map((item, index) => (
+            {/* A continuacion se agrega el componente de Requerimientos */}
+
+            {/* {projectRequirements.map((item, index) => (
               <ProjectRequirements
                 key={item.key}
                 item={item}
@@ -171,7 +200,7 @@ class ProjectForm extends Component {
                 onItemChange={this.handleItemChange}
                 onItemRemoval={this.handleOnRemoveRequirementItem}
               />
-            ))}
+            ))} */}
           </form>
 
           <div style={buttonTileStyle.container}>
@@ -180,28 +209,27 @@ class ProjectForm extends Component {
               color='secondary'
               onClick={() => {
                 let data = JSON.stringify(this.state, null, 2)
-                console.log(JSON.stringify(this.state, null, 2))
-
-                // fetch('http://192.168.0.40:5000/', {
-                //   mode: 'no-cors',
-                //   method: 'POST',
-                //   headers: {
-                //     Accept: 'application/json',
-                //     'Content-Type': 'application/json'
-                //   },
-                //   body: data
-                // }).then((response) => console.log(response))
+                console.log(JSON.stringify(data))
+                this.postProjectFromHere()
               }}
             >
               Postear
             </Button>
 
-            <Button
+            {/* <Button
               variant='fab'
               color='primary'
               onClick={this.addNewRequirements}
             >
               +
+            </Button> */}
+
+            <Button
+              variant='fab'
+              color='secondary'
+              onClick={this.postProjectFromHere}
+            >
+              Post
             </Button>
           </div>
         </Grid>
@@ -214,4 +242,19 @@ ProjectForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ProjectForm)
+const mapDispatchToProps = {
+  postProject
+}
+
+// function mapStateToProps (state) {
+//   const { projectForm: { isSearching, projectDetails, projects } } = state
+
+//   return {
+//     isSearching,
+//     projectDetails,
+//     projects
+//   }
+// }
+
+// export default connect(mapDispatchToProps)(withStyles(styles)(ProjectForm))
+export default connect(null, mapDispatchToProps)(ProjectForm)

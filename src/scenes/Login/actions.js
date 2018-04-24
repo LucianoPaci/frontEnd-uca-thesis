@@ -5,11 +5,12 @@ export const LOGIN_SUCCESS = 'USERS_LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'USERS_LOGIN_FAILURE'
 
 export const login = (username, password) => {
-  return (dispatch, getState, { api, request }) => {
+  console.log('Estoy en el action, voy a entrar al userService')
+  return (dispatch) => {
+    console.log('aca')
     dispatch({
       type: LOGIN_REQUEST
     })
-
     userServices.login(username, password).then(
       // Login Successful!
       (user) => {

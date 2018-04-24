@@ -11,6 +11,7 @@ import HomePage from './scenes/Home/HomePage'
 import ProfilePage from './scenes/Profile/ProfilePage'
 import ProjectPage from './scenes/Project/ProjectPage'
 import LoginPage from './scenes/Login/LoginPage'
+import RegistrationPage from './scenes/Registration/RegistrationPage'
 import { history } from './store/history'
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles'
 import { createMuiTheme } from 'material-ui'
@@ -39,9 +40,10 @@ const App = () => (
         <Switch>
           <Route path='/home' component={HomePage} />
           <Route path='/login' component={LoginPage} />
+          <Route path='/registration' component={RegistrationPage} />
           <Route path='/profile' component={ProfilePage} />
           <Route path='/project' component={ProjectPage} />
-          <Route path='/project/create' component={ProjectPage} />{' '}
+          <Route path='/project/create' component={ProjectPage} />
           {/*Aca deberia ir al form de creacion de proyecto*/}
         </Switch>
       </Layout>

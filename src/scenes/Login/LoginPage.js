@@ -1,9 +1,14 @@
+// Nota: En el login, la confirmacion de password no se va a hacer. Pero se va agregar en el JSON que
+// se va a postear, como un duplicado de la password
+
 import React, { Component } from 'react'
 import Typography from 'material-ui/Typography'
 import { Paper, TextField, Card } from 'material-ui'
 import { PropTypes } from 'prop-types'
 import { Button, Icon } from 'material-ui'
 import { login } from './actions'
+import { connect } from 'react-redux'
+import validateInput from '../../services/validation/loginValidation'
 
 const styles = {
   root: {
@@ -56,7 +61,9 @@ class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
-      submitted: false
+      submitted: false,
+      isLoading: false,
+      errors: {}
     }
   }
 
@@ -75,7 +82,12 @@ class LoginPage extends Component {
   }
   handleSubmitForm = (event) => {
     event.preventDefault()
-    this.submitData()
+    // console.log(this.state)
+
+    if (this.isValid()) {
+      console.log('Aca estot tamboen')
+    }
+    // this.submitData()
     /**
      * preventDefault() method tells the user that if the 
      * event does not get explicitly handled, its default action should not be taken 
@@ -84,38 +96,57 @@ class LoginPage extends Component {
      */
   }
 
-  submitData = () => {
-    const { email, password } = this.state
-
-    let emailError, passwordError
-
-    if (!email) {
-      emailError = 'missingEmail'
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      emailError = 'invalidEmail'
+  isValid = () => {
+    const { errors, isValid } = validateInput(this.state)
+    console.log('Aca estoy ')
+    if (!isValid) {
+      this.setState({ errors })
     }
 
-    if (!password) {
-      passwordError = 'missingPassword'
-    }
-
-    if (emailError || passwordError) {
-      this.setState({
-        emailError,
-        passwordError
-      })
-    } else {
-      this.setState({
-        emailError: '',
-        passwordError: ''
-      })
-      // Llamado a la action de login
-
-      login(email, password)
-    }
+    return isValid
   }
+
+  // submitData = () => {
+  //   const { email, password } = this.state
+
+  //   let emailError, passwordError
+
+  //   if (!email) {
+  //     emailError = 'missingEmail'
+  //   } else if (!/\S+@\S+\.\S+/.test(email)) {
+  //     emailError = 'invalidEmail'
+  //   }
+
+  //   if (!password) {
+  //     passwordError = 'missingPassword'
+  //   }
+
+  //   if (emailError || passwordError) {
+  //     this.setState({
+  //       emailError,
+  //       passwordError
+  //     })
+  //   } else {
+  //     this.setState({
+  //       emailError: '',
+  //       passwordError: ''
+  //     })
+  //     // Llamado a la action de login
+  //     login(email, password)
+  //     console.log(
+  //       JSON.stringify(
+  //         {
+  //           email,
+  //           password
+  //         },
+  //         null,
+  //         2
+  //       )
+  //     )
+  //   }
+  // }
   render () {
-    // const { email, password } = this.state
+    const { email, password, errors, isLoading } = this.state
     return (
       <div style={styles.root}>
         <div style={styles.content}>
@@ -128,18 +159,17 @@ class LoginPage extends Component {
                 placeholder='Email'
                 style={styles.textField}
                 autoFocus
-                value={this.state.email}
-                error={this.emailError}
+                value={email}
+                error={errors.email}
                 onChange={this.handleEmailChange}
               />
 
               <TextField
                 placeholder='Password'
                 style={styles.textField}
-                autoFocus
                 type='password'
-                value={this.state.password}
-                error={this.passwordError}
+                value={password}
+                error={errors.password}
                 onChange={this.handlePasswordChange}
               />
 

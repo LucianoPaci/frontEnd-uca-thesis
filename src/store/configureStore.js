@@ -1,9 +1,9 @@
 import thunk from 'redux-thunk'
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import reducers from '../reducers'
 import { request } from '../utils'
 
-const api = 'https://swapi.co/api'
+const api = 'http://localhost:5000/'
 
 let configureStore = createStore(
   reducers,

@@ -14,6 +14,8 @@ export const userServices = {
   login
 }
 
+const apiRoute = '/api/ingresar'
+console.log('Entre al US')
 function login (username, password) {
   const requestOptions = {
     method: 'POST',
@@ -21,7 +23,7 @@ function login (username, password) {
     body: JSON.stringify({ username, password })
   }
 
-  return fetch('/users/authenticate', requestOptions)
+  return fetch(apiRoute, requestOptions)
     .then((response) => {
       if (!response.ok) {
         return Promise.reject(response.statusText)

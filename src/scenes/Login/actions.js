@@ -6,23 +6,17 @@ export const LOGIN_SUCCESS = 'USERS_LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'USERS_LOGIN_FAILURE'
 export const LOGOUT = 'LOGOUT'
 
-export const login = (username, password) => {
-  console.log('Estoy en el action, voy a entrar al userService')
+export function tryLogin (user, password) {
   return (dispatch) => {
-    console.log('aca')
     dispatch({
       type: LOGIN_REQUEST
     })
-    userServices.login(username, password).then(
-      // Login Successful!
+
+    userServices.login(user, password).then(
       (user) => {
-        dispatch({
-          type: LOGIN_SUCCESS
-        })
-        history.push('/') // Va esto? Parece que debo meter algo aca
+        dispatch(login(user))
       },
       (err) => {
-        // Login Failed
         dispatch({
           type: LOGIN_FAILURE,
           payload: err,
@@ -30,6 +24,31 @@ export const login = (username, password) => {
         })
       }
     )
+  }
+}
+// export const tryLogin = (user, password) => (dispatch) => {
+//   dispatch({
+//     type: LOGIN_REQUEST
+//   })
+
+//   userServices.login(user, password).then(
+//     (user) => {
+//       dispatch(login(user))
+//     },
+//     (err) => {
+//       dispatch({
+//         type: LOGIN_FAILURE,
+//         payload: err,
+//         error: true
+//       })
+//     }
+//   )
+// }
+
+export function login (user) {
+  return {
+    type: LOGIN_SUCCESS,
+    payload: user
   }
 }
 

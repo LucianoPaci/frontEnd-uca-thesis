@@ -6,7 +6,7 @@ import Typography from 'material-ui/Typography'
 import { Paper, TextField, Card } from 'material-ui'
 import { PropTypes as ptypes } from 'prop-types'
 import { Button, Icon } from 'material-ui'
-// import { login } from './actions' // Se reemplazo el login del action por el login de services/usserServices
+// import { tryLogin } from './actions' // Se reemplazo el login del action por el login de services/usserServices
 import { userServices } from '../../services/userServices'
 import { connect } from 'react-redux'
 import validateInput from '../../services/validation/loginValidation'
@@ -51,7 +51,7 @@ class LoginPage extends Component {
   static propTypes = {
     loginError: ptypes.object,
     loggingIn: ptypes.bool.isRequired,
-    login: ptypes.func.isRequired
+    tryLogin: ptypes.func.isRequired
   }
 
   /**
@@ -72,10 +72,15 @@ class LoginPage extends Component {
 
   // shouldComponentUpdate () {}
 
-  handleChange = (name) => (event) => {
-    this.setState({
-      [name]: event.target.value
-    })
+  handleSubmitForm = (event) => {
+    event.preventDefault()
+    this.submitData()
+    /**
+     * preventDefault() method tells the user that if the 
+     * event does not get explicitly handled, its default action should not be taken 
+     * as it normally would be. 
+     * https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
+     */
   }
 
   handleUserChange = (event) => {
@@ -89,53 +94,25 @@ class LoginPage extends Component {
       password: event.target.value
     })
   }
-  handleSubmitForm = (event) => {
-    event.preventDefault()
-
-    // // if (this.isValid()) {
-    // console.log(this.state.user, this.state.password)
-    // userServices.login(this.state.user, this.state.password).then((user) => {
-    //   this.setState(...this.state, user)
-    //   // console.log(this.state)
-    // })
-
-    // }
-    this.submitData()
-    /**
-     * preventDefault() method tells the user that if the 
-     * event does not get explicitly handled, its default action should not be taken 
-     * as it normally would be. 
-     * https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
-     */
-  }
-
-  // isValid = () => {
-  //   const { errors, isValid } = validateInput(this.state)
-  //   console.log(`Dentro del 'isValid'`)
-  //   if (!isValid) {
-  //     this.setState({ errors })
-  //   }
-
-  //   return isValid
-  // }
 
   submitData = () => {
     const { user, password } = this.state
-    const { login } = this.props
+    const { tryLogin } = this.props
     let userError, passwordError
 
     if (!user) {
       userError = 'missinguser'
-    } else if (!/\S+@\S+\.\S+/.test(user)) {
-      userError = 'invaliduser'
     }
-    console.log('En el SubmitData')
+    // else if (!/\S+@\S+\.\S+/.test(user)) {
+    // //   userError = 'invaliduser'
+    // // }
 
     if (!password) {
       passwordError = 'missingPassword'
     }
 
     if (userError || passwordError) {
+      console.log('En el Error')
       this.setState({
         ...this.state,
         errors: {
@@ -143,6 +120,7 @@ class LoginPage extends Component {
           passwordError
         }
       })
+      console.log(this.state)
     } else {
       this.setState({
         ...this.state,
@@ -152,17 +130,11 @@ class LoginPage extends Component {
         }
       })
       // Llamado a la action de login
-      login(user, password)
-      // console.log(
-      //   JSON.stringify(
-      //     {
-      //       user,
-      //       password
-      //     },
-      //     null,
-      //     2
-      //   )
-      // )
+      console.log(this.state, user, password)
+      console.log(this.props)
+      console.log(this.tryLogin)
+      console.log(tryLogin)
+      tryLogin(user, password)
     }
   }
   render () {
@@ -171,6 +143,7 @@ class LoginPage extends Component {
     return (
       <div style={styles.root}>
         <div style={styles.content}>
+          {console.log(this.props)}
           <form style={styles.form} onSubmit={this.handleSubmitForm}>
             <Typography variant='display1' align='center' gutterBottom={true}>
               Login
@@ -202,7 +175,7 @@ class LoginPage extends Component {
                 disabled={loggingIn}
                 variant='raised'
                 color='primary'
-                onClick={this.handleSubmitForm}
+                // onClick={this.submitData}
               >
                 Login
               </Button>

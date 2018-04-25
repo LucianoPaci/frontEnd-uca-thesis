@@ -2,13 +2,14 @@ import Layout from './Layout'
 
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { updatePage } from './reducer'
+import { updatePage } from './actions'
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth: { user } } = state
+  const user = state
 
   return {
-    loggedIn: !!user,
+    // loggedIn: !!user,
+    loggedIn: false,
     router: ownProps.history
   }
 }

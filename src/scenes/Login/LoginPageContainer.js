@@ -1,10 +1,11 @@
-import { login } from './actions'
+import { tryLogin } from './actions'
 import { connect } from 'react-redux'
 import LoginPage from './LoginPage'
 
 const mapStateToProps = (state, ownProps) => {
-  const { auth: { user }, loggingIn, loginError } = state
-
+  const { user, loggingIn, loginError } = state
+  console.log('Hola')
+  console.log(state)
   return {
     user,
     loggingIn,
@@ -13,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = {
-  login
+  tryLogin
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

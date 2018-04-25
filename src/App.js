@@ -6,6 +6,7 @@ import { Link, Router, Route, Redirect, Switch, Prov } from 'react-router-dom'
 import configureStore from './store/configureStore'
 import { Provider as ReduxProvider } from 'react-redux'
 import * as request from 'browser-request'
+// import LayoutContainer from './scenes/Layout/LayoutContainer'
 import Layout from './scenes/Layout/Layout'
 import HomePage from './scenes/Home/HomePage'
 import ProfilePage from './scenes/Profile/ProfilePage'
@@ -39,7 +40,7 @@ const App = () => (
       <Layout>
         <Switch>
           <Route path='/home' component={HomePage} />
-          <Route path='/login' component={LoginPage} />
+          {/* <Route path='/login' component={LoginPage} /> */}
           <Route path='/registration' component={RegistrationPage} />
           <Route path='/profile' component={ProfilePage} />
           <Route path='/project' component={ProjectPage} />
@@ -51,5 +52,7 @@ const App = () => (
     {/* </MuiThemeProvider> */}
   </ReduxProvider>
 )
+
+// Aca no tiene que haber rutas
 
 export default App

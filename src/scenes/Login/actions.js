@@ -1,8 +1,10 @@
 import { userServices } from '../../services/userServices'
 import { history } from '../../store/history'
+import { push } from 'react-router-redux'
 export const LOGIN_REQUEST = 'USERS_LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'USERS_LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'USERS_LOGIN_FAILURE'
+export const LOGOUT = 'LOGOUT'
 
 export const login = (username, password) => {
   console.log('Estoy en el action, voy a entrar al userService')
@@ -28,5 +30,16 @@ export const login = (username, password) => {
         })
       }
     )
+  }
+}
+
+export const logoutAndRedirect = (dispatch) => {
+  dispatch(logout())
+  dispatch(push({ pathname: '/' }))
+}
+
+export function logout () {
+  return {
+    type: LOGOUT
   }
 }

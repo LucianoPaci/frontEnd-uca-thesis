@@ -1,21 +1,14 @@
-// function authHeader() {
-//   // return authorization header with jwt token
-//   let user = JSON.parse(localStorage.getItem('user'));
-
-//   if (user && user.token) {
-//       return { 'Authorization': 'Bearer ' + user.token };
-//   } else {
-//       return {};
-//   }
-// }
-
 // Ir agregando las funciones a exportar
 export const userServices = {
-  login
+  login,
+  logout,
+  register
 }
 
-const apiRoute = '/api/ingresar'
-console.log('Entre al US')
+const apiLogin = '/api/ingresar'
+const apiRegistrar = '/api/registrar'
+console.log('Entre al userServices')
+
 function login (username, password) {
   const requestOptions = {
     method: 'POST',
@@ -23,7 +16,7 @@ function login (username, password) {
     body: JSON.stringify({ username, password })
   }
 
-  return fetch(apiRoute, requestOptions)
+  return fetch(apiLogin, requestOptions)
     .then((response) => {
       if (!response.ok) {
         return Promise.reject(response.statusText)
@@ -48,4 +41,34 @@ function login (username, password) {
 
       return user
     })
+}
+function logout () {
+  // remove user from local storage to log user out
+  localStorage.removeItem('user')
+}
+
+function register (user) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user)
+  }
+
+  return fetch(apiRegistrar, requestOptions).then((response) => {
+    if (!response.ok) {
+      return Promise.reject(response.statusText)
+    }
+    return response.json()
+  })
+}
+
+function authHeader () {
+  // return authorization header with jwt token
+  let user = JSON.parse(localStorage.getItem('user'))
+
+  if (user && user.token) {
+    return { Authorization: 'Bearer ' + user.token }
+  } else {
+    return {}
+  }
 }

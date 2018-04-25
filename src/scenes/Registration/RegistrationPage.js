@@ -4,7 +4,7 @@ import { Paper, TextField, Card } from 'material-ui'
 import { PropTypes } from 'prop-types'
 import { Button, Icon } from 'material-ui'
 import { login } from './actions'
-
+import { userServices } from '../../services/userServices'
 const styles = {
   root: {
     height: '100%',
@@ -57,6 +57,7 @@ class RegistrationPage extends Component {
       email: '',
       password: '',
       password_cpy: '',
+      username: '',
       name: '',
       surname: '',
       submitted: false
@@ -65,33 +66,12 @@ class RegistrationPage extends Component {
 
   // shouldComponentUpdate () {}
 
-  handleEmailChange = (event) => {
+  handleChange = (name) => (event) => {
     this.setState({
-      email: event.target.value
+      [name]: event.target.value
     })
   }
 
-  handlePasswordChange = (event) => {
-    this.setState({
-      password: event.target.value
-    })
-  }
-  handleNameChange = (event) => {
-    this.setState({
-      name: event.target.value
-    })
-  }
-  handleSurnameChange = (event) => {
-    this.setState({
-      surname: event.target.value
-    })
-  }
-
-  handlePasswordCopyChange = (event) => {
-    this.setState({
-      password_cpy: event.target.value
-    })
-  }
   handleSubmitForm = (event) => {
     event.preventDefault()
     this.submitData()
@@ -104,9 +84,16 @@ class RegistrationPage extends Component {
   }
 
   submitData = () => {
-    const { email, password, password_cpy, name, surname } = this.state
+    const {
+      email,
+      password,
+      password_cpy,
+      name,
+      surname,
+      username
+    } = this.state
 
-    let emailError, passwordError, nameError, surnameError
+    let emailError, passwordError, nameError, surnameError, usernameError
 
     if (!email) {
       emailError = 'missingEmail'
@@ -120,6 +107,9 @@ class RegistrationPage extends Component {
     if (!name) {
       nameError = 'missingName'
     }
+    if (!username) {
+      usernameError = 'missingUserName'
+    }
     if (!surname) {
       surnameError = 'missingSurname'
     }
@@ -128,23 +118,39 @@ class RegistrationPage extends Component {
       passwordError = 'passwordNotEqual'
     }
 
-    if (emailError || passwordError || nameError || surnameError) {
+    if (
+      emailError ||
+      passwordError ||
+      nameError ||
+      surnameError ||
+      usernameError
+    ) {
       this.setState({
         emailError,
         passwordError,
         surnameError,
-        nameError
+        nameError,
+        usernameError
       })
     } else {
       this.setState({
         emailError: '',
         passwordError: '',
         nameError: '',
-        surnameError: ''
+        surnameError: '',
+        usernameError: ''
       })
       // Llamado a la action de login
 
-      // login(email, password)
+      userServices.register(this.state).then((response) => {
+        console.log(response)
+        this.setState({
+          ...this.state,
+          submitted: true
+        })
+      })
+
+      console.log(JSON.stringify(this.state, null, 2))
     }
   }
   render () {
@@ -159,58 +165,67 @@ class RegistrationPage extends Component {
             <Card style={styles.card}>
               <TextField
                 placeholder='Nombre'
+                id='name'
                 style={styles.textField}
                 autoFocus
                 value={this.state.name}
-                error={this.surnameError}
-                onChange={this.handleNameChange}
+                error={this.nameError}
+                onChange={this.handleChange('name')}
               />
               <TextField
                 placeholder='Apellido'
+                id='surname'
                 style={styles.textField}
-                // autoFocus
                 value={this.state.surname}
                 error={this.surnameError}
-                onChange={this.handleSurnameChange}
+                onChange={this.handleChange('surname')}
               />
               <TextField
                 placeholder='Email'
+                id='email'
                 style={styles.textField}
-                // autoFocus
                 value={this.state.email}
                 error={this.emailError}
-                onChange={this.handleEmailChange}
+                onChange={this.handleChange('email')}
+              />
+              <TextField
+                placeholder='Username'
+                id='username'
+                style={styles.textField}
+                value={this.state.username}
+                error={this.usernameError}
+                onChange={this.handleChange('username')}
               />
 
               <TextField
                 placeholder='Contraseña'
                 style={styles.textField}
-                // autoFocus
+                id='password'
                 type='password'
                 value={this.state.password}
                 error={this.passwordError}
-                onChange={this.handlePasswordChange}
+                onChange={this.handleChange('password')}
               />
 
               <TextField
                 placeholder='Repetir Contraseña'
                 style={styles.textField}
-                // autoFocus
+                id='password_cpy'
                 type='password'
                 value={this.state.password_cpy}
                 error={this.passwordError}
-                onChange={this.handlePasswordCopyChange}
+                onChange={this.handleChange('password_cpy')}
               />
 
               <Button
-                // type='submit'
+                type='submit'
                 style={styles.buttonLogin}
                 variant='raised'
                 color='primary'
-                onClick={() => {
-                  // this.handleSubmitForm()
-                  console.log(JSON.stringify(this.state, null, 2))
-                }}
+                onClick={
+                  this.handleSubmitForm
+                  // console.log(JSON.stringify(this.state, null, 2))
+                }
               >
                 Registrar
               </Button>

@@ -4,9 +4,10 @@
 import React, { Component } from 'react'
 import Typography from 'material-ui/Typography'
 import { Paper, TextField, Card } from 'material-ui'
-import { PropTypes } from 'prop-types'
+import { PropTypes as ptypes } from 'prop-types'
 import { Button, Icon } from 'material-ui'
-import { login } from './actions'
+// import { login } from './actions' // Se reemplazo el login del action por el login de services/usserServices
+import { userServices } from '../../services/userServices'
 import { connect } from 'react-redux'
 import validateInput from '../../services/validation/loginValidation'
 
@@ -47,31 +48,39 @@ class LoginPage extends Component {
    * PropTypes
    */
 
-  // static propTypes = {
-  //   defaultValues: PropTypes.object.isRequired
-  // }
+  static propTypes = {
+    loginError: ptypes.object,
+    loggingIn: ptypes.bool.isRequired,
+    login: ptypes.func.isRequired
+  }
 
   /**
    * Constructor
   */
 
+  // En los props del Container vienen {user, loggingIn, loginError}
+
   constructor (props) {
     super(props)
 
     this.state = {
-      email: '',
+      user: '',
       password: '',
-      submitted: false,
-      isLoading: false,
       errors: {}
     }
   }
 
   // shouldComponentUpdate () {}
 
-  handleEmailChange = (event) => {
+  handleChange = (name) => (event) => {
     this.setState({
-      email: event.target.value
+      [name]: event.target.value
+    })
+  }
+
+  handleUserChange = (event) => {
+    this.setState({
+      user: event.target.value
     })
   }
 
@@ -82,12 +91,16 @@ class LoginPage extends Component {
   }
   handleSubmitForm = (event) => {
     event.preventDefault()
-    // console.log(this.state)
 
-    if (this.isValid()) {
-      console.log('Aca estot tamboen')
-    }
-    // this.submitData()
+    // // if (this.isValid()) {
+    // console.log(this.state.user, this.state.password)
+    // userServices.login(this.state.user, this.state.password).then((user) => {
+    //   this.setState(...this.state, user)
+    //   // console.log(this.state)
+    // })
+
+    // }
+    this.submitData()
     /**
      * preventDefault() method tells the user that if the 
      * event does not get explicitly handled, its default action should not be taken 
@@ -96,72 +109,81 @@ class LoginPage extends Component {
      */
   }
 
-  isValid = () => {
-    const { errors, isValid } = validateInput(this.state)
-    console.log('Aca estoy ')
-    if (!isValid) {
-      this.setState({ errors })
+  // isValid = () => {
+  //   const { errors, isValid } = validateInput(this.state)
+  //   console.log(`Dentro del 'isValid'`)
+  //   if (!isValid) {
+  //     this.setState({ errors })
+  //   }
+
+  //   return isValid
+  // }
+
+  submitData = () => {
+    const { user, password } = this.state
+    const { login } = this.props
+    let userError, passwordError
+
+    if (!user) {
+      userError = 'missinguser'
+    } else if (!/\S+@\S+\.\S+/.test(user)) {
+      userError = 'invaliduser'
+    }
+    console.log('En el SubmitData')
+
+    if (!password) {
+      passwordError = 'missingPassword'
     }
 
-    return isValid
+    if (userError || passwordError) {
+      this.setState({
+        ...this.state,
+        errors: {
+          userError,
+          passwordError
+        }
+      })
+    } else {
+      this.setState({
+        ...this.state,
+        errors: {
+          userError: '',
+          passwordError: ''
+        }
+      })
+      // Llamado a la action de login
+      login(user, password)
+      // console.log(
+      //   JSON.stringify(
+      //     {
+      //       user,
+      //       password
+      //     },
+      //     null,
+      //     2
+      //   )
+      // )
+    }
   }
-
-  // submitData = () => {
-  //   const { email, password } = this.state
-
-  //   let emailError, passwordError
-
-  //   if (!email) {
-  //     emailError = 'missingEmail'
-  //   } else if (!/\S+@\S+\.\S+/.test(email)) {
-  //     emailError = 'invalidEmail'
-  //   }
-
-  //   if (!password) {
-  //     passwordError = 'missingPassword'
-  //   }
-
-  //   if (emailError || passwordError) {
-  //     this.setState({
-  //       emailError,
-  //       passwordError
-  //     })
-  //   } else {
-  //     this.setState({
-  //       emailError: '',
-  //       passwordError: ''
-  //     })
-  //     // Llamado a la action de login
-  //     login(email, password)
-  //     console.log(
-  //       JSON.stringify(
-  //         {
-  //           email,
-  //           password
-  //         },
-  //         null,
-  //         2
-  //       )
-  //     )
-  //   }
-  // }
   render () {
-    const { email, password, errors, isLoading } = this.state
+    const { user, password, errors } = this.state
+    const { loggingIn } = this.props
     return (
       <div style={styles.root}>
         <div style={styles.content}>
-          <form style={styles.form}>
+          <form style={styles.form} onSubmit={this.handleSubmitForm}>
             <Typography variant='display1' align='center' gutterBottom={true}>
               Login
             </Typography>
             <Card style={styles.card}>
               <TextField
-                placeholder='Email'
+                placeholder='Username'
                 style={styles.textField}
                 autoFocus
-                value={email}
-                error={errors.email}
-                onChange={this.handleEmailChange}
+                value={user}
+                disabled={loggingIn}
+                error={errors.user ? true : false}
+                onChange={this.handleUserChange}
               />
 
               <TextField
@@ -169,18 +191,30 @@ class LoginPage extends Component {
                 style={styles.textField}
                 type='password'
                 value={password}
-                error={errors.password}
+                disabled={loggingIn}
+                error={errors.password ? true : false}
                 onChange={this.handlePasswordChange}
               />
 
               <Button
                 type='submit'
                 style={styles.buttonLogin}
+                disabled={loggingIn}
                 variant='raised'
                 color='primary'
                 onClick={this.handleSubmitForm}
               >
                 Login
+              </Button>
+
+              <Button
+                type='submit'
+                style={styles.buttonLogin}
+                variant='raised'
+                color='primary'
+                onClick={userServices.logout}
+              >
+                Logout
               </Button>
             </Card>
           </form>

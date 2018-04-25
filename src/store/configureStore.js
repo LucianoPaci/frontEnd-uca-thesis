@@ -1,15 +1,18 @@
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, compose } from 'redux'
-import reducers from '../reducers'
-import { request } from '../utils'
-
+import rootReducer from '../reducers'
+import { routerMiddleware } from 'react-router-redux'
+import { history } from './history'
 const api = 'http://localhost:5000/'
 
-let configureStore = createStore(
-  reducers,
+const configureStore = createStore(
+  rootReducer,
   compose(
-    applyMiddleware(thunk.withExtraArgument({ api, request })),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    routerMiddleware(history),
+    applyMiddleware(thunk.withExtraArgument({ api })),
+    (window.__REDUX_DEVTOOLS_EXTENSION__ &&
+      window.__REDUX_DEVTOOLS_EXTENSION__()) ||
+      ((x) => x)
   )
 )
 

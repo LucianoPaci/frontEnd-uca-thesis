@@ -1,0 +1,22 @@
+import Layout from './Layout'
+
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { updatePage } from './reducer'
+
+const mapStateToProps = (state, ownProps) => {
+  const { auth: { user } } = state
+
+  return {
+    loggedIn: !!user,
+    router: ownProps.history
+  }
+}
+const mapDispatchToProps = {
+  updatePage
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout))
+
+// Este componente contenedor le conecta el state y las actions que ejecutan los dispatch, como props
+// al Componente Layout

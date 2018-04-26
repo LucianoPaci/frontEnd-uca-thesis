@@ -140,6 +140,8 @@ class LoginPage extends Component {
   render () {
     const { user, password, errors } = this.state
     const { loggingIn } = this.props
+    console.log('Que me llega', this.props)
+
     return (
       <div style={styles.root}>
         <div style={styles.content}>

@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import { Route } from 'react-router-dom'
 import { PropTypes as ptypes } from 'prop-types'
-import ButtonAppBar from '../components/ButtonAppBar'
-import Grid from 'material-ui/Grid'
-import Paper from 'material-ui/Paper'
-import NestedList from '../components/NestedList'
-import SocialFeedCards from '../components/SocialFeedCards'
+import ButtonAppBar from './components/ButtonAppBar'
+// import Grid from 'material-ui/Grid'
+// import Paper from 'material-ui/Paper'
+// import NestedList from '../components/NestedList'
+// import SocialFeedCards from '../components/SocialFeedCards'
 
-import LoginPage from '../Login/LoginPage'
-import HomePage from '../Home/HomePage'
+import { LoginPage } from '../LoginPage'
+
 // Tendria que acceder al store y preguntar si el user esta logeado
 // Si esta logeado, no deberia mostrar el ButtonAppBar
 

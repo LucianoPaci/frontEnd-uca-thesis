@@ -4,6 +4,7 @@ import rootReducer from '../reducers'
 import { routerMiddleware } from 'react-router-redux'
 import { history } from './history'
 import thunkMiddleware from 'redux-thunk'
+import logger from 'redux-logger'
 // const api = 'http://localhost:5000/'
 
 // const configureStore = createStore(
@@ -20,7 +21,7 @@ import thunkMiddleware from 'redux-thunk'
 const configureStore = createStore(
   rootReducer,
   compose(
-    applyMiddleware(thunkMiddleware, routerMiddleware(history)),
+    applyMiddleware(thunkMiddleware, logger, routerMiddleware(history)),
     (window.__REDUX_DEVTOOLS_EXTENSION__ &&
       window.__REDUX_DEVTOOLS_EXTENSION__()) ||
       ((x) => x)

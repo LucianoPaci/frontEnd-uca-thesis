@@ -2,16 +2,16 @@ import * as ActionTypes from './actions'
 
 const initialState = {
   loggingIn: false,
-  user: '',
-  password: ''
+  user: null
 }
 export default function reducer (state = initialState, action) {
   switch (action.type) {
     case ActionTypes.LOGIN_SUCCESS:
       return {
-        ...state,
-        loggingIn: false
-        // user: action.payload.result
+        // ...state,
+        // loggingIn: false,
+        ...initialState,
+        user: action.payload
       }
 
     case ActionTypes.LOGIN_REQUEST:
@@ -25,6 +25,11 @@ export default function reducer (state = initialState, action) {
         ...state,
         loggingIn: false,
         error: action.payload
+      }
+
+    case ActionTypes.LOGOUT:
+      return {
+        loggingIn: false
       }
 
     default:

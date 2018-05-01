@@ -3,7 +3,8 @@ import * as ActionTypes from './actions'
 const initialState = {
   isSearching: false,
   projectDetails: null,
-  projects: null
+  allProjects: null,
+  isPosting: false
 }
 
 export default function reducer (state = initialState, action) {
@@ -37,7 +38,7 @@ export default function reducer (state = initialState, action) {
       return {
         ...state,
         isSearching: false,
-        projects: state.projects.concat(action.payload.results)
+        allProjects: state.allProjects.concat(action.payload.results)
       }
     case ActionTypes.FETCH_ALL_PROJECTS_SEARCHED_ERROR:
       return {
@@ -49,17 +50,17 @@ export default function reducer (state = initialState, action) {
     case ActionTypes.PROJECT_NEW_POSTING:
       return {
         ...state,
-        isSearching: true
+        isPosting: true
       }
     case ActionTypes.PROJECT_NEW_POSTED_SUCCESS:
       return {
         ...state,
-        isSearching: false
+        isPosting: false
       }
     case ActionTypes.PROJECT_NEW_POSTED_FAILED:
       return {
         ...state,
-        isSearching: false
+        isPosting: false
       }
 
     default:

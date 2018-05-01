@@ -4,7 +4,8 @@ import { combineReducers } from 'redux'
 
 import projectForm from './scenes/ProjectPage/ProjectForm/reducer'
 import loginPage from './scenes/LoginPage/reducer'
-
+import layoutPage from './scenes/Layout/reducer'
+import homePage from './scenes/MainPage/HomePage/reducer'
 // Hay que traerse el action de Logout para borrar el store
 import { LOGOUT } from './scenes/LoginPage/actions'
 
@@ -12,7 +13,9 @@ import { LOGOUT } from './scenes/LoginPage/actions'
 
 const appReducer = combineReducers({
   projectForm,
-  loginPage
+  loginPage,
+  layoutPage,
+  homePage
 })
 
 const rootReducer = (state, action) => {

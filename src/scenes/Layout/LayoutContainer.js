@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom'
 import { updatePage } from './actions'
 
 const mapStateToProps = (state, ownProps) => {
-  const user = state
+  const { user, loggedIn } = state
 
   return {
-    // loggedIn: !!user,
-    loggedIn: false,
+    loggedIn: !!user,
+    // loggedIn: false,
     router: ownProps.history
   }
 }

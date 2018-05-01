@@ -7,7 +7,7 @@ import { Paper, TextField, Card } from 'material-ui'
 import { PropTypes as ptypes } from 'prop-types'
 import { Button, Icon } from 'material-ui'
 // import { tryLogin } from './actions' // Se reemplazo el login del action por el login de services/usserServices
-import { userServices } from '../../services/userServices'
+import { userServices, deserialize } from '../../services/userServices'
 import { connect } from 'react-redux'
 import validateInput from '../../services/validation/loginValidation'
 
@@ -70,7 +70,9 @@ class LoginPage extends Component {
     }
   }
 
-  // shouldComponentUpdate () {}
+  shouldComponentUpdate (nextProps, nextState) {
+    return true
+  }
 
   handleSubmitForm = (event) => {
     event.preventDefault()
@@ -112,7 +114,6 @@ class LoginPage extends Component {
     }
 
     if (userError || passwordError) {
-      console.log('En el Error')
       this.setState({
         ...this.state,
         errors: {
@@ -120,7 +121,6 @@ class LoginPage extends Component {
           passwordError
         }
       })
-      console.log(this.state)
     } else {
       this.setState({
         ...this.state,
@@ -129,23 +129,19 @@ class LoginPage extends Component {
           passwordError: ''
         }
       })
-      // Llamado a la action de login
-      console.log(this.state, user, password)
-      console.log(this.props)
-      console.log(this.tryLogin)
-      console.log(tryLogin)
+
       tryLogin(user, password)
     }
   }
   render () {
     const { user, password, errors } = this.state
     const { loggingIn } = this.props
-    console.log('Que me llega', this.props)
+
+    // deserialize()
 
     return (
       <div style={styles.root}>
         <div style={styles.content}>
-          {console.log(this.props)}
           <form style={styles.form} onSubmit={this.handleSubmitForm}>
             <Typography variant='display1' align='center' gutterBottom={true}>
               Login
@@ -180,16 +176,6 @@ class LoginPage extends Component {
                 // onClick={this.submitData}
               >
                 Login
-              </Button>
-
-              <Button
-                type='submit'
-                style={styles.buttonLogin}
-                variant='raised'
-                color='primary'
-                onClick={userServices.logout}
-              >
-                Logout
               </Button>
             </Card>
           </form>

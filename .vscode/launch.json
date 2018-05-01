@@ -5,11 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
+      
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
-      "url": "http://localhost:8080",
-      "webRoot": "${workspaceFolder}"
+      "name": "Chrome",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/src",
+      "userDataDir": "${workspaceRoot}/.vscode/chrome",
+      "sourceMapPathOverrides": {
+      "webpack:///src/*": "${webRoot}/*"
+            }
     }
   ]
 }

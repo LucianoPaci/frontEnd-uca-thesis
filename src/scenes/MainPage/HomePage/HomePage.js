@@ -1,15 +1,28 @@
 import React, { Component, Fragment } from 'react'
-import ButtonAppBar from '../components/ButtonAppBar'
 import Grid from 'material-ui/Grid'
 import Paper from 'material-ui/Paper'
 import NestedList from '../components/NestedList'
 import SocialFeedCards from '../components/SocialFeedCards'
+import { getAllProjects } from './actions'
+import CircularIndeterminate from '../components/CircularIndeterminate'
+import { connect } from 'react-redux'
 class HomePage extends Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
+    this.state = {
+      projects: []
+    }
+  }
+
+  componentDidMount () {
+    const { getAllProjects } = this.props
+    const user = JSON.parse(localStorage.getItem('user')).token
+    getAllProjects(user)
   }
 
   render () {
+    const { projects, isFetching } = this.props
+
     return (
       <Fragment>
         <Grid
@@ -22,7 +35,10 @@ class HomePage extends Component {
 
                     </Grid> */}
 
-          <Grid container style={{ position: 'fixed', height: '100%', top: 0 }}>
+          <Grid
+            container
+            style={{ position: 'fixed', height: '100%', top: 10 }}
+          >
             <Grid item xs={6} md={4} lg={3} style={{ height: '100%' }}>
               <Paper
                 style={{
@@ -39,12 +55,23 @@ class HomePage extends Component {
             </Grid>
           </Grid>
 
-          <Grid item xs={6} md={4} lg={6}>
-            <SocialFeedCards />
-            <SocialFeedCards />
-            <SocialFeedCards />
-            <SocialFeedCards />
-            <SocialFeedCards />
+          <Grid
+            item
+            xs={6}
+            md={4}
+            lg={6}
+            style={{ padding: '120px 40px 40px 40px' }}
+          >
+            {isFetching ? <CircularIndeterminate /> : null}
+
+            {!isFetching && projects ? (
+              projects.map((project) => (
+                <SocialFeedCards
+                  name={project.name}
+                  description={project.description}
+                />
+              ))
+            ) : null}
           </Grid>
         </Grid>
         {/* Estaba aca  */}
@@ -53,4 +80,18 @@ class HomePage extends Component {
   }
 }
 
+// function mapStateToProps (state) {
+//   const { projects, isFetching } = state
+
+//   return {
+//     projects,
+//     isFetching
+//   }
+// }
+
+// const mapDispatchToProps = {
+//   getAllProjects
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
 export default HomePage

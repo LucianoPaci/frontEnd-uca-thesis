@@ -1,18 +1,17 @@
 //@ts-check
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+
 import { withStyles } from 'material-ui/styles'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import IconButton from 'material-ui/IconButton'
-import MenuIcon from 'material-ui-icons/Menu'
 // import AccountCircle from 'mateial-ui-icons/AccountCircle';
-import Switch from 'material-ui/Switch'
-import { FormControlLabel, FormGroup } from 'material-ui/Form'
-import Menu, { MenuItem } from 'material-ui/Menu'
-import Button from 'material-ui/Button'
+import MenuIcon from '@material-ui/icons/Menu'
 
+import Menu, { MenuItem } from 'material-ui/Menu'
+
+import { userServices } from '../../../services/userServices'
 import { Link } from 'react-router-dom'
 
 const styles = {
@@ -27,7 +26,7 @@ const styles = {
     marginRight: 20
   },
   button: {
-    color: 'white'
+    color: 'primary'
   }
 }
 
@@ -52,24 +51,12 @@ class ButtonAppBar extends React.Component {
   render () {
     const { auth, anchorEl } = this.state
     const open = Boolean(anchorEl)
-    const { classes } = this.props
 
     return (
       <div style={this.props.style}>
         <AppBar position='static'>
           <Toolbar>
-            {/* <IconButton
-              color='inherit'
-              className={classes.menuButton}
-              aria-label='Menu'
-            >
-              <MenuIcon />
-            </IconButton> */}
-            <Typography
-              variant='title'
-              color='inherit'
-              className={classes.flex}
-            >
+            <Typography variant='title' color='inherit' style={styles.flex}>
               {this.props.title}
             </Typography>
             <div style={{ flex: 1 }} />
@@ -81,14 +68,9 @@ class ButtonAppBar extends React.Component {
                   onClick={this.handleMenu}
                   color='inherit'
                 >
-                  <Button
-                    variant='raised'
-                    color='secondary'
-                    classes={classes.button}
-                  >
-                    Menu
-                  </Button>
+                  <MenuIcon />
                 </IconButton>
+
                 <Menu
                   id='menu-appbar'
                   anchorEl={anchorEl}
@@ -105,16 +87,26 @@ class ButtonAppBar extends React.Component {
                 >
                   <MenuItem
                     onClick={this.handleClose}
-                    component={(props) => <Link {...props} to='/profile' />}
+                    component={(props) => (
+                      <Link {...props} to='/mainpage/profile' />
+                    )}
                   >
                     Profile
                   </MenuItem>
 
                   <MenuItem
                     onClick={this.handleClose}
-                    component={(props) => <Link {...props} to='/home' />}
+                    component={(props) => (
+                      <Link {...props} to='/mainpage/home' />
+                    )}
                   >
                     Home
+                  </MenuItem>
+                  <MenuItem
+                    onClick={(this.handleClose, userServices.logout)}
+                    component={(props) => <Link {...props} to='/' />}
+                  >
+                    Logout
                   </MenuItem>
                 </Menu>
               </div>

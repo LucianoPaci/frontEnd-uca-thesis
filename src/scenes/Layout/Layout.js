@@ -6,9 +6,9 @@ import ButtonAppBar from './components/ButtonAppBar'
 // import Paper from 'material-ui/Paper'
 // import NestedList from '../components/NestedList'
 // import SocialFeedCards from '../components/SocialFeedCards'
-
 import { LoginPage } from '../LoginPage'
-
+import { updateToken } from './actions'
+import LayoutRoutes from './LayoutRoutes'
 // Tendria que acceder al store y preguntar si el user esta logeado
 // Si esta logeado, no deberia mostrar el ButtonAppBar
 
@@ -23,9 +23,9 @@ class Layout extends Component {
   shouldComponentUpdate (nextProps, nextState) {
     return true
   }
-
   render () {
-    const { loggedIn } = this.props
+    updateToken('user')
+    const loggedIn = !!localStorage.getItem('user')
     return (
       <div className={'rootLayoutDiv'}>
         {!loggedIn ? (
@@ -33,16 +33,19 @@ class Layout extends Component {
             <Route component={LoginPage} />
           </div>
         ) : (
-          <ButtonAppBar
-            title='UcaApp'
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              zIndex: 40,
-              width: '100%'
-            }}
-          />
+          <Fragment>
+            <ButtonAppBar
+              title='UcaApp'
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                zIndex: 40,
+                width: '100%'
+              }}
+            />
+            <LayoutRoutes />
+          </Fragment>
         )}
 
         <div style={{ paddingTop: '120px' }}>{this.props.children}</div>

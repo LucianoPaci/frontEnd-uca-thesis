@@ -26,24 +26,6 @@ export function tryLogin (user, password) {
     )
   }
 }
-// export const tryLogin = (user, password) => (dispatch) => {
-//   dispatch({
-//     type: LOGIN_REQUEST
-//   })
-
-//   userServices.login(user, password).then(
-//     (user) => {
-//       dispatch(login(user))
-//     },
-//     (err) => {
-//       dispatch({
-//         type: LOGIN_FAILURE,
-//         payload: err,
-//         error: true
-//       })
-//     }
-//   )
-// }
 
 export function login (user) {
   return {

@@ -3,9 +3,7 @@ import { connect } from 'react-redux'
 import LoginPage from './LoginPage'
 
 const mapStateToProps = (state, ownProps) => {
-  const { user, loggingIn, loginError } = state
-  console.log('Hola')
-  console.log(state)
+  const { user, loggingIn, loginError } = state.loginPage
   return {
     user,
     loggingIn,

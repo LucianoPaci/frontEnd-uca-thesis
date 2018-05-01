@@ -3,14 +3,14 @@ import { Route, Switch } from 'react-router-dom'
 
 import { ProjectFormContainer } from './ProjectForm'
 
-const ProjectRoutes = () => {
-  ;<Switch>
+const ProjectRoutes = ({ match }) => (
+  <Switch>
     <Route
       exact
-      path='/api/project/create'
+      path={match.url + '/create'}
       render={(props) => <ProjectFormContainer {...props} />}
     />
   </Switch>
-}
+)
 
 export default ProjectRoutes

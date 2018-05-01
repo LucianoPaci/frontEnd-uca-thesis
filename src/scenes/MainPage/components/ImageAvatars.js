@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withStyles } from 'material-ui/styles'
 import Avatar from 'material-ui/Avatar'
-import image from '../../media/images/cat.jpg'
+import image from '../../../media/images/cat.jpg'
 const styles = {
   row: {
     display: 'flex',

@@ -9,10 +9,14 @@ import ProjectRequirements from './requirementSelector/ProjectRequirements'
 import { Typography } from 'material-ui'
 import Button from 'material-ui/Button'
 import { fetchProjects, fetchProjectDetails, postProject } from './actions'
-const styles = (theme) => ({
+const styles = {
   container: {
     display: 'flex',
     flexWrap: 'wrap'
+  },
+
+  form: {
+    padding: '140px 20px 20px 20px'
   },
 
   menu: {
@@ -21,12 +25,12 @@ const styles = (theme) => ({
 
   paper: {
     width: '100%'
-  },
-
-  button: {
-    margin: theme.spacing.unit
   }
-})
+
+  // button: {
+  //   margin: theme.spacing.unit
+  // }
+}
 const buttonTileStyle = {
   container: {
     boxShadow: ` 'black' 0px 0px 5px`,
@@ -66,30 +70,22 @@ class ProjectForm extends Component {
   //   }
   // }
 
-  postProjectFromHere = () => {
-    fetch('/api/proyecto', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization:
-          'Bearer ' +
-          'eyJhbGciOiJIUzI1NiIsImlhdCI6MTUyNDQ1MDU4OCwiZXhwIjoxNTI0NDU0MTg4fQ.eyJpZCI6Nn0.vJyH_Z6FYM_CXKhbjHJ1a-Hur1fdR97I5wNdPklKf3g'
-        // Extraer el token del store y ponerlo ahi como {store.token}
-      },
-      body: JSON.stringify(this.state)
-    })
-      .then((response) => {
-        console.log(response)
-        if (!response.ok) {
-          return Promise.reject(new Error(response.statusText))
-        }
-        return response.json()
-      })
-      .then((body) => {
-        console.log(body)
-      })
-      .catch((error) => console.log(error))
+  handleSubmitForm = (event) => {
+    event.preventDefault()
+    const data = this.state
+    this.postEverything()
+  }
+
+  postEverything = () => {
+    const { name, description } = this.state
+    const { postProject } = this.props
+
+    const data = {
+      name,
+      description
+    }
+
+    postProject(data)
   }
 
   handleNameChange = (event) => {
@@ -140,9 +136,7 @@ class ProjectForm extends Component {
   }
 
   render () {
-    const { classes } = this.props
     const { isSearching, projectDetails, projects } = this.props
-    console.log(this.state)
 
     // Tomo el state y lo guardo en una variable para luego hacer un mapeo de los componentes
     // que voy a renderizar
@@ -152,7 +146,12 @@ class ProjectForm extends Component {
     return (
       <Grid container justify='center' alignItems='center' spacing='40'>
         <Grid item xs={12} md={8} lg={6}>
-          <form className={classes.container} noValidate autoComplete='off'>
+          <form
+            noValidate
+            autoComplete='off'
+            style={styles.form}
+            onSubmit={this.handleSubmitForm}
+          >
             <Typography variant='headline' component='h2'>
               {this.state.name}
             </Typography>
@@ -201,50 +200,36 @@ class ProjectForm extends Component {
                 onItemRemoval={this.handleOnRemoveRequirementItem}
               />
             ))} */}
+
+            <div style={buttonTileStyle.container}>
+              <Button
+                type='submit'
+                variant='rounded'
+                color='secondary'
+                onClick={() => {
+                  let data = JSON.stringify(this.state, null, 2)
+                }}
+              >
+                Postear
+              </Button>
+            </div>
           </form>
-
-          <div style={buttonTileStyle.container}>
-            <Button
-              variant='rounded'
-              color='secondary'
-              onClick={() => {
-                let data = JSON.stringify(this.state, null, 2)
-                console.log(JSON.stringify(data))
-                this.postProjectFromHere()
-              }}
-            >
-              Postear
-            </Button>
-
-            {/* <Button
+          {/* <Button
               variant='fab'
               color='primary'
               onClick={this.addNewRequirements}
             >
               +
             </Button> */}
-
-            <Button
-              variant='fab'
-              color='secondary'
-              onClick={this.postProjectFromHere}
-            >
-              Post
-            </Button>
-          </div>
         </Grid>
       </Grid>
     )
   }
 }
 
-ProjectForm.propTypes = {
-  classes: PropTypes.object.isRequired
-}
-
-const mapDispatchToProps = {
-  postProject
-}
+// const mapDispatchToProps = {
+//   postProject
+// }
 
 // function mapStateToProps (state) {
 //   const { projectForm: { isSearching, projectDetails, projects } } = state
@@ -257,4 +242,5 @@ const mapDispatchToProps = {
 // }
 
 // export default connect(mapDispatchToProps)(withStyles(styles)(ProjectForm))
-export default connect(null, mapDispatchToProps)(ProjectForm)
+// export default connect(null, mapDispatchToProps)(ProjectForm)
+export default ProjectForm

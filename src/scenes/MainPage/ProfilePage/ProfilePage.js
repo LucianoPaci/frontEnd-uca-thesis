@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import Grid from 'material-ui/Grid'
 import Paper from 'material-ui/Paper'
 import SocialFeedCards from '../components/SocialFeedCards'
-import image from '../../media/images/cat.jpg'
+import image from '../../../media/images/cat.jpg'
 import ImageAvatars from '../components/ImageAvatars'
 import ProfileCard from '../components/ProfileCard'
 
@@ -16,7 +16,7 @@ const styles = {
     zIndex: 20
   },
   gridContainer: {
-    paddingTop: '120px'
+    padding: '120px 40px 40px 40px'
   }
 }
 
@@ -30,7 +30,12 @@ class ProfilePage extends Component {
     }
   }
 
+  // componentDidMount(){
+  //   const user = JSON.parse(localStorage.getItem('user'))
+  // }
+
   render () {
+    const user = JSON.parse(localStorage.getItem('user'))
     return (
       <Fragment>
         <Grid container style={{ position: 'fixed', height: '100%' }}>
@@ -38,9 +43,9 @@ class ProfilePage extends Component {
             <Paper style={styles.paper}>
               <ImageAvatars />
               <ProfileCard
-                firstName={`Luciano`}
-                lastName={`Paci`}
-                studentOf={`Informatica`}
+                firstName={user.name}
+                lastName={user.surname}
+                username={`@${user.username}`}
               />
             </Paper>
           </Grid>

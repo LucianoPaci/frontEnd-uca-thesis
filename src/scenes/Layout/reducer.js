@@ -1,8 +1,8 @@
 import * as ActionTypes from './actions'
 
 const initialState = {
-  id: 'unknown',
-  buttons: []
+  user: '',
+  loggedIn: false
 }
 
 export default function reducer (state = initialState, action) {
@@ -12,6 +12,13 @@ export default function reducer (state = initialState, action) {
         ...state,
         ...initialState,
         ...action.payload
+      }
+
+    case ActionTypes.UPDATE_TOKEN:
+      return {
+        ...state,
+        loggedIn: !!action.payload,
+        user: action.payload
       }
 
     default:

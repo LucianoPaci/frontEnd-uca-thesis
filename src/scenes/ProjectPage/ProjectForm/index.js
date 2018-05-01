@@ -1,3 +1,3 @@
-import ProjectForm from './ProjectFormContainer'
+import ProjectFormContainer from './ProjectFormContainer'
 
-export { ProjectForm }
+export { ProjectFormContainer }

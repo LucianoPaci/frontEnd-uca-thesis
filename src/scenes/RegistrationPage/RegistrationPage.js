@@ -3,8 +3,6 @@ import Typography from 'material-ui/Typography'
 import { Paper, TextField, Card } from 'material-ui'
 import { PropTypes } from 'prop-types'
 import { Button, Icon } from 'material-ui'
-import { login } from './actions'
-import { userServices } from '../../services/userServices'
 const styles = {
   root: {
     height: '100%',
@@ -14,7 +12,7 @@ const styles = {
 
   content: {
     margin: '32px auto 32px',
-    width: 'calc(100% / 3)'
+    width: 'calc(100% / 2)'
   },
   buttonLogin: {
     height: '60px',
@@ -24,7 +22,8 @@ const styles = {
   },
   card: {
     padding: '32px',
-    margin: '20px'
+    margin: '20px',
+    width: '100%'
   },
 
   form: {
@@ -93,6 +92,8 @@ class RegistrationPage extends Component {
       username
     } = this.state
 
+    const { trySignIn } = this.props
+
     let emailError, passwordError, nameError, surnameError, usernameError
 
     if (!email) {
@@ -140,25 +141,17 @@ class RegistrationPage extends Component {
         surnameError: '',
         usernameError: ''
       })
-      // Llamado a la action de login
 
-      userServices.register(this.state).then((response) => {
-        console.log(response)
-        this.setState({
-          ...this.state,
-          submitted: true
-        })
-      })
-
-      console.log(JSON.stringify(this.state, null, 2))
+      const data = this.state
+      trySignIn(data)
     }
   }
   render () {
-    // const { email, password } = this.state
+    const { signingIn } = this.props
     return (
       <div style={styles.root}>
         <div style={styles.content}>
-          <form style={styles.form}>
+          <form style={styles.form} onSubmit={this.handleSubmitForm}>
             <Typography variant='display1' align='center' gutterBottom={true}>
               Registrar
             </Typography>
@@ -170,6 +163,7 @@ class RegistrationPage extends Component {
                 autoFocus
                 value={this.state.name}
                 error={this.nameError}
+                disabled={signingIn}
                 onChange={this.handleChange('name')}
               />
               <TextField
@@ -178,6 +172,7 @@ class RegistrationPage extends Component {
                 style={styles.textField}
                 value={this.state.surname}
                 error={this.surnameError}
+                disabled={signingIn}
                 onChange={this.handleChange('surname')}
               />
               <TextField
@@ -186,6 +181,7 @@ class RegistrationPage extends Component {
                 style={styles.textField}
                 value={this.state.email}
                 error={this.emailError}
+                disabled={signingIn}
                 onChange={this.handleChange('email')}
               />
               <TextField
@@ -194,6 +190,7 @@ class RegistrationPage extends Component {
                 style={styles.textField}
                 value={this.state.username}
                 error={this.usernameError}
+                disabled={signingIn}
                 onChange={this.handleChange('username')}
               />
 
@@ -204,6 +201,7 @@ class RegistrationPage extends Component {
                 type='password'
                 value={this.state.password}
                 error={this.passwordError}
+                disabled={signingIn}
                 onChange={this.handleChange('password')}
               />
 
@@ -214,6 +212,7 @@ class RegistrationPage extends Component {
                 type='password'
                 value={this.state.password_cpy}
                 error={this.passwordError}
+                disabled={signingIn}
                 onChange={this.handleChange('password_cpy')}
               />
 
@@ -222,10 +221,8 @@ class RegistrationPage extends Component {
                 style={styles.buttonLogin}
                 variant='raised'
                 color='primary'
-                onClick={
-                  this.handleSubmitForm
-                  // console.log(JSON.stringify(this.state, null, 2))
-                }
+                onClick={//   this.handleSubmitForm
+                console.log(JSON.stringify(this.state, null, 2))}
               >
                 Registrar
               </Button>

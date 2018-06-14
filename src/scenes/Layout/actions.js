@@ -1,3 +1,4 @@
+import { push } from 'react-router-redux'
 export const UPDATE_PAGE = 'UPDATE_PAGE'
 export const UPDATE_TOKEN = 'UPDATE_TOKEN'
 

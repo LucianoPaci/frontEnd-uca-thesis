@@ -59,7 +59,9 @@ class ProfilePage extends Component {
         >
           <Grid item xs={6} md={4} lg={4} />
           <Grid item xs={6} md={8} lg={8}>
-            <SocialFeedCards />
+            <SocialFeedCards
+              title={'Aca deberian ir los proyectos a los que esta suscripto'}
+            />
             <SocialFeedCards />
             <SocialFeedCards />
             <SocialFeedCards />

@@ -4,7 +4,9 @@ import { push } from 'react-router-redux'
 export const LOGIN_REQUEST = 'USERS_LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'USERS_LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'USERS_LOGIN_FAILURE'
-export const LOGOUT = 'LOGOUT'
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'
 
 export function tryLogin (user, password) {
   return (dispatch) => {
@@ -15,6 +17,7 @@ export function tryLogin (user, password) {
     userServices.login(user, password).then(
       (user) => {
         dispatch(login(user))
+        localStorage.setItem('user', JSON.stringify(user))
       },
       (err) => {
         dispatch({
@@ -34,13 +37,16 @@ export function login (user) {
   }
 }
 
-export const logoutAndRedirect = (dispatch) => {
-  dispatch(logout())
-  dispatch(push({ pathname: '/' }))
+export function logoutAndRedirect () {
+  return (dispatch) => {
+    dispatch({
+      type: LOGOUT_REQUEST
+    })
+  }
 }
 
 export function logout () {
   return {
-    type: LOGOUT
+    type: LOGOUT_SUCCESS
   }
 }

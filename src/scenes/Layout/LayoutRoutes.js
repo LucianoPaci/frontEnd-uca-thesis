@@ -4,6 +4,7 @@ import { Redirect } from 'react-router'
 import { MainPageRoutes } from '../MainPage'
 import { ProjectRoutes } from '../ProjectPage'
 import { Paper, TextField, Card } from 'material-ui'
+import { RegistrationPageContainer } from '../RegistrationPage'
 
 const LayoutRoutes = () => (
   <Switch>
@@ -17,6 +18,11 @@ const LayoutRoutes = () => (
       // exact
       path='/project'
       render={(props) => <ProjectRoutes {...props} />}
+    />
+    <Route
+      // exact
+      path='/registration'
+      render={(props) => <RegistrationPageContainer {...props} />}
     />
     <Route path='*' render={(props) => <Redirect to='/mainpage/home' />} />
   </Switch>

@@ -49,6 +49,7 @@ class ButtonAppBar extends React.Component {
   }
 
   render () {
+    const { logoutAndRedirect } = this.props
     const { auth, anchorEl } = this.state
     const open = Boolean(anchorEl)
 
@@ -102,10 +103,7 @@ class ButtonAppBar extends React.Component {
                   >
                     Home
                   </MenuItem>
-                  <MenuItem
-                    onClick={(this.handleClose, userServices.logout)}
-                    component={(props) => <Link {...props} to='/' />}
-                  >
+                  <MenuItem onClick={() => logoutAndRedirect()}>
                     Logout
                   </MenuItem>
                 </Menu>

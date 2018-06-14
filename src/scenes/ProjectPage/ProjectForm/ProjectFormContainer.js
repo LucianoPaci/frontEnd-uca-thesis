@@ -3,12 +3,14 @@ import ProjectForm from './ProjectForm'
 import { postProject } from './actions'
 
 const mapStateToProps = (state, ownProps) => {
-  const { isSearching, projectDetails, projects } = state
+  const { isSearching, projectDetails, allProjects } = state.projectForm
+  const { user } = state.loginPage
 
   return {
     isSearching,
     projectDetails,
-    projects
+    allProjects,
+    user
   }
 }
 

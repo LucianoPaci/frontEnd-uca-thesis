@@ -4,7 +4,7 @@ import { getAllProjects } from './actions'
 
 const mapStateToProps = (state, ownProps) => {
   // No se si esta bien, pero es como lo pude solucionar
-  const { projects, isFetching } = state.homePage
+  const { homePage: { projects, isFetching } } = state
 
   return {
     projects,

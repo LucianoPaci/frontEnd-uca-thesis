@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Route } from 'react-router-dom'
 import { PropTypes as ptypes } from 'prop-types'
 import ButtonAppBar from './components/ButtonAppBar'
@@ -7,12 +7,12 @@ import ButtonAppBar from './components/ButtonAppBar'
 // import NestedList from '../components/NestedList'
 // import SocialFeedCards from '../components/SocialFeedCards'
 import { LoginPage } from '../LoginPage'
-import { updateToken } from './actions'
+import { updateToken, updatePage } from './actions'
 import LayoutRoutes from './LayoutRoutes'
 // Tendria que acceder al store y preguntar si el user esta logeado
 // Si esta logeado, no deberia mostrar el ButtonAppBar
 
-class Layout extends Component {
+class Layout extends PureComponent {
   static propTypes = {
     loggedIn: ptypes.bool.isRequired
   }
@@ -20,15 +20,14 @@ class Layout extends Component {
   constructor (props) {
     super()
   }
-  shouldComponentUpdate (nextProps, nextState) {
-    return true
-  }
+
   render () {
-    updateToken('user')
-    const loggedIn = !!localStorage.getItem('user')
+    const { user, children, logoutAndRedirect } = this.props
+    console.log('Layout ', user)
+    // const loggedIn = !!localStorage.getItem('user')
     return (
       <div className={'rootLayoutDiv'}>
-        {!loggedIn ? (
+        {!user ? (
           <div className={'contentLayoutDiv'}>
             <Route component={LoginPage} />
           </div>
@@ -43,12 +42,14 @@ class Layout extends Component {
                 zIndex: 40,
                 width: '100%'
               }}
+              logoutAndRedirect={logoutAndRedirect}
             />
+
             <LayoutRoutes />
           </Fragment>
         )}
 
-        <div style={{ paddingTop: '120px' }}>{this.props.children}</div>
+        <div style={{ paddingTop: '120px' }}>{children}</div>
       </div>
     )
   }

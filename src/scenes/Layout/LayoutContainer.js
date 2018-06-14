@@ -3,18 +3,19 @@ import Layout from './Layout'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updatePage } from './actions'
+import { logoutAndRedirect } from '../LoginPage/actions'
 
 const mapStateToProps = (state, ownProps) => {
-  const { user, loggedIn } = state
+  const { loginPage: { user, loggedIn } } = state
 
   return {
-    loggedIn: !!user,
-    // loggedIn: false,
-    router: ownProps.history
+    router: ownProps.history,
+    user
   }
 }
 const mapDispatchToProps = {
-  updatePage
+  updatePage,
+  logoutAndRedirect
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout))

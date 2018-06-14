@@ -1,8 +1,10 @@
 import * as ActionTypes from './actions'
 
 const initialState = {
-  user: '',
   loggedIn: false
+  // user: localStorage.getItem('user')
+  //   ? JSON.parse(localStorage.getItem('user'))
+  //   : null
 }
 
 export default function reducer (state = initialState, action) {
@@ -10,7 +12,6 @@ export default function reducer (state = initialState, action) {
     case ActionTypes.UPDATE_PAGE:
       return {
         ...state,
-        ...initialState,
         ...action.payload
       }
 

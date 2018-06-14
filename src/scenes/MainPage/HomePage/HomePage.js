@@ -16,7 +16,11 @@ class HomePage extends Component {
 
   componentDidMount () {
     const { getAllProjects } = this.props
-    const user = JSON.parse(localStorage.getItem('user')).token
+    const user = localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user')).token
+      : null
+
+    console.log(this.state)
     getAllProjects(user)
   }
 

@@ -15,11 +15,19 @@ import red from 'material-ui/colors/red'
 import FavoriteIcon from 'material-ui-icons/Favorite'
 import ShareIcon from 'material-ui-icons/Share'
 import ExpandMoreIcon from 'material-ui-icons/ExpandMore'
+import PersonAdd from 'material-ui-icons/PersonAdd'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
+import Tooltip from 'material-ui/Tooltip'
+import { Icon } from 'material-ui'
+import ProgressMobileStepper from './ProgressMobileStepper'
 
 const styles = (theme) => ({
   card: {
     maxWidth: 400
+  },
+
+  progressBar: {
+    flex: 1
   },
   media: {
     height: 194
@@ -54,32 +62,36 @@ class SocialFeedCards extends React.Component {
   }
 
   render () {
-    const { name, description } = this.props
+    const { project } = this.props
     return (
       <div>
-        <Card>
+        <Card style={styles.card}>
           <CardHeader
-            avatar={<Avatar aria-label='Recipe'>R</Avatar>}
+            avatar={<Avatar aria-label='Recipe'>{project.name[0]}</Avatar>}
             action={
               <IconButton>
                 <MoreVertIcon />
               </IconButton>
             }
-            title={name}
-            subheader='September 14, 2016'
+            title={project.name}
+            subheader={project.creation_date}
           />
           {/* <CardMedia // image='/static/images/cards/paella.jpg'
           title='Contemplative Reptile' /> */}
           <CardContent>
-            <Typography component='p'>{description}</Typography>
+            <Typography component='p'>{project.description}</Typography>
           </CardContent>
           <CardActions disableActionSpacing>
-            <IconButton aria-label='Add to favorites'>
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label='Share'>
-              <ShareIcon />
-            </IconButton>
+            <Tooltip id='tooltip-share' title='Compartir'>
+              <IconButton aria-label='Share'>
+                <ShareIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip id='tooltip-personAdd' title='Unirse al proyecto'>
+              <IconButton aria-label='Join Project'>
+                <PersonAdd />
+              </IconButton>
+            </Tooltip>
             <IconButton
               onClick={this.handleExpandClick}
               aria-expanded={this.state.expanded}
@@ -88,12 +100,13 @@ class SocialFeedCards extends React.Component {
               <ExpandMoreIcon />
             </IconButton>
           </CardActions>
+          <ProgressMobileStepper />
           <Collapse in={this.state.expanded} timeout='auto' unmountOnExit>
             <CardContent>
-              {/* <Typography paragraph variant='body2'>
+              <Typography paragraph variant='body2'>
                 Method:
-              </Typography> */}
-              {/* <Typography paragraph>
+              </Typography>
+              <Typography paragraph>
                 Heat 1/2 cup of the broth in a pot until simmering, add saffron
                 and set aside for 10 minutes.
               </Typography>
@@ -120,7 +133,7 @@ class SocialFeedCards extends React.Component {
               <Typography>
                 Set aside off of the heat to let rest for 10 minutes, and then
                 serve.
-              </Typography> */}
+              </Typography>
             </CardContent>
           </Collapse>
         </Card>

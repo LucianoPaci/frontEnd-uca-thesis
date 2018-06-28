@@ -14,17 +14,17 @@ export const PROJECT_NEW_POSTING = 'PROJECT_NEW_POSTING'
 export const PROJECT_NEW_POSTED_SUCCESS = 'PROJECT_NEW_POSTED'
 export const PROJECT_NEW_POSTED_FAILED = 'PROJECT_NEW_POSTED_FAILED'
 
+export const FETCHING_ALL_SKILLS = 'FETCHING_ALL_SKILLS'
+export const FETCHING_ALL_SKILLS_SUCCESS = 'FETCHING_ALL_SKILLS_SUCCESS'
+export const FETCHING_ALL_SKILLS_ERROR = 'FETCHING_ALL_SKILLS_ERROR'
+
 export const fetchProjects = (user) => {
   return (dispatch, getState, { apiLocal, fetch, token }) => {
     dispatch({
       type: FETCH_ALL_PROJECTS_SEARCHING
     })
     let headers = new Headers()
-    headers.append(
-      'Authorization'
-      // 'Basic ' +
-      //   'eyJhbGciOiJIUzI1NiIsImlhdCI6MTUyNDI2MjQyNywiZXhwIjoxNTI0MjYzMDI3fQ.eyJpZCI6Mn0.LReOyLZz2QVuYTYdA4_qdBiaZbTIrCFtxS2_kcSZTWU'
-    )
+    headers.append('Authorization')
     fetch('http://localhost:5000/verproyectos', {
       method: 'GET',
       headers: new Headers({
@@ -61,7 +61,6 @@ export const fetchProjects = (user) => {
   }
 }
 
-// verproyecto
 export const fetchProjectDetails = (projectUrl) => {
   return (dispatch, getState, { api, request }) => {
     dispatch({
@@ -103,6 +102,29 @@ export function postProject (projectData) {
       (err) => {
         dispatch({
           type: PROJECT_NEW_POSTED_FAILED,
+          payload: err,
+          error: true
+        })
+      }
+    )
+  }
+}
+
+export function getAllSkills (user) {
+  return (dispatch) => {
+    dispatch({
+      type: FETCHING_ALL_SKILLS
+    })
+    userServices.getAllSkills(user).then(
+      (skills) => {
+        dispatch({
+          type: FETCHING_ALL_SKILLS_SUCCESS,
+          payload: skills
+        })
+      },
+      (err) => {
+        dispatch({
+          type: FETCHING_ALL_SKILLS_ERROR,
           payload: err,
           error: true
         })

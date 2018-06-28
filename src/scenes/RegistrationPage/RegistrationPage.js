@@ -221,8 +221,8 @@ class RegistrationPage extends Component {
                 style={styles.buttonLogin}
                 variant='raised'
                 color='primary'
-                onClick={//   this.handleSubmitForm
-                console.log(JSON.stringify(this.state, null, 2))}
+                // onClick={//   this.handleSubmitForm
+                // console.log(JSON.stringify(this.state, null, 2))}
               >
                 Registrar
               </Button>

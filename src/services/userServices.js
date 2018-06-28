@@ -7,13 +7,15 @@ export const userServices = {
   logout,
   register,
   getAllProjects,
-  postProject
+  postProject,
+  getAllSkills
 }
 
-const apiLogin = '/api/ingresar'
-const apiRegistrar = '/api/registrar'
-const apiGetAllProjects = '/api/verproyectos'
-const apiPostProject = '/api/proyecto'
+const apiLogin = '/api/accounts/log_in'
+const apiSignIn = '/api/accounts/sign_up'
+const apiGetAllProjects = '/api/user/project'
+const apiPostProject = '/api/project2'
+const apiGetAllSkills = '/api/skills'
 
 /**
  * FUNCIONES DE AUTH
@@ -56,7 +58,6 @@ function login (username, password) {
 function logout () {
   // remove user from local storage to log user out
   localStorage.removeItem('user')
-  console.log('ENTRO')
 }
 
 function register (user) {
@@ -66,10 +67,33 @@ function register (user) {
     body: JSON.stringify(user)
   }
 
-  return fetch(apiRegistrar, requestOptions).then((response) => {
+  return fetch(apiSignIn, requestOptions).then((response) => {
     if (!response.ok) {
       return Promise.reject(response.statusText)
     }
+    return response.json()
+  })
+}
+
+/** 
+ * FUNCIONES DE SKILLS
+*/
+
+function getAllSkills (token) {
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+      Accept: 'application/json'
+    }
+  }
+
+  return fetch(apiGetAllSkills, requestOptions).then((response) => {
+    if (!response.ok) {
+      return Promise.reject(response.statusText)
+    }
+
     return response.json()
   })
 }

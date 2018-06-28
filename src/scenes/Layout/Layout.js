@@ -2,15 +2,13 @@ import React, { PureComponent, Fragment } from 'react'
 import { Route } from 'react-router-dom'
 import { PropTypes as ptypes } from 'prop-types'
 import ButtonAppBar from './components/ButtonAppBar'
-// import Grid from 'material-ui/Grid'
-// import Paper from 'material-ui/Paper'
-// import NestedList from '../components/NestedList'
-// import SocialFeedCards from '../components/SocialFeedCards'
 import { LoginPage } from '../LoginPage'
 import { updateToken, updatePage } from './actions'
 import LayoutRoutes from './LayoutRoutes'
+import { TextField } from 'material-ui'
 // Tendria que acceder al store y preguntar si el user esta logeado
 // Si esta logeado, no deberia mostrar el ButtonAppBar
+import { SearchBar } from './components/SearchBar'
 
 class Layout extends PureComponent {
   static propTypes = {
@@ -23,8 +21,7 @@ class Layout extends PureComponent {
 
   render () {
     const { user, children, logoutAndRedirect } = this.props
-    console.log('Layout ', user)
-    // const loggedIn = !!localStorage.getItem('user')
+
     return (
       <div className={'rootLayoutDiv'}>
         {!user ? (

@@ -1,5 +1,6 @@
 import React, { Fragment, Component } from 'react'
 import { connect } from 'react-redux'
+import Paper from 'material-ui/Paper'
 import PropTypes from 'prop-types'
 import MenuItem from 'material-ui/Menu/MenuItem'
 import { withStyles } from 'material-ui/styles'
@@ -8,7 +9,14 @@ import Grid from 'material-ui/Grid'
 import ProjectRequirements from './requirementSelector/ProjectRequirements'
 import { Typography } from 'material-ui'
 import Button from 'material-ui/Button'
-import { fetchProjects, fetchProjectDetails, postProject } from './actions'
+import {
+  fetchProjects,
+  fetchProjectDetails,
+  postProject,
+  getAllSkills
+} from './actions'
+
+import SkillSelector from './skillSelector/SkillSelector'
 const styles = {
   container: {
     display: 'flex',
@@ -24,7 +32,8 @@ const styles = {
   },
 
   paper: {
-    width: '100%'
+    width: '100%',
+    margin: '15px'
   }
 
   // button: {
@@ -34,7 +43,7 @@ const styles = {
 const buttonTileStyle = {
   container: {
     boxShadow: ` 'black' 0px 0px 5px`,
-    zIndex: '10',
+    // zIndex: '10',
     padding: '10px 0',
     position: 'relative',
     textAlign: 'center',
@@ -49,16 +58,18 @@ class ProjectForm extends Component {
     super(props)
     this.state = {
       name: '',
-      description: ''
-      // projectRequirements: [
-      //   {
-      //     role: '',
-      //     carreer: '',
-      //     quantity: '',
-      //     key: randomKey()
-      //   }
-      // ]
+      description: '',
+      skills: []
     }
+  }
+
+  componentDidMount () {
+    const { getAllSkills } = this.props
+    const user = localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user')).token
+      : null
+
+    getAllSkills(user)
   }
 
   // const requirements = projectRequirements.map(each) => {
@@ -77,12 +88,13 @@ class ProjectForm extends Component {
   }
 
   postEverything = () => {
-    const { name, description } = this.state
+    const { name, description, skills } = this.state
     const { postProject } = this.props
 
     const data = {
       name,
-      description
+      description,
+      skills
     }
 
     postProject(data)
@@ -135,8 +147,15 @@ class ProjectForm extends Component {
     this.setState({ projectRequirements: newRequirements })
   }
 
+  handleSkillsChanges = (values) => {
+    this.setState({
+      skills: values.split(',')
+    })
+  }
+
   render () {
-    const { isSearching, projectDetails, projects } = this.props
+    const { isSearching, projectDetails, projects, allSkills } = this.props
+    const { skills } = this.state
 
     // Tomo el state y lo guardo en una variable para luego hacer un mapeo de los componentes
     // que voy a renderizar
@@ -146,42 +165,50 @@ class ProjectForm extends Component {
     return (
       <Grid container justify='center' alignItems='center' spacing='40'>
         <Grid item xs={12} md={8} lg={6}>
-          <form
-            noValidate
-            autoComplete='off'
-            style={styles.form}
-            onSubmit={this.handleSubmitForm}
-          >
-            <Typography variant='headline' component='h2'>
-              {this.state.name}
-            </Typography>
+          <Paper style={styles.paper}>
+            <form
+              noValidate
+              autoComplete='off'
+              style={styles.form}
+              onSubmit={this.handleSubmitForm}
+            >
+              <Fragment>
+                <Typography variant='headline' component='h2'>
+                  {this.state.name}
+                </Typography>
+              </Fragment>
+              <TextField
+                id='name'
+                label='Nombre del proyecto'
+                value={this.state.name}
+                onChange={this.handleNameChange}
+                fullWidth
+                margin='normal'
+              />
 
-            <TextField
-              id='name'
-              label='Nombre del proyecto'
-              value={this.state.name}
-              onChange={this.handleNameChange}
-              fullWidth
-              margin='normal'
-            />
+              <TextField
+                id='description'
+                label='Descripción'
+                multiline
+                rowsMax='20'
+                value={this.state.description}
+                onChange={this.handleDescriptionChange}
+                fullWidth
+                style={{
+                  padding: '0 0 10px 0'
+                }}
+                margin='normal'
+              />
 
-            <TextField
-              id='description'
-              label='Descripción'
-              multiline
-              rowsMax='20'
-              value={this.state.description}
-              onChange={this.handleDescriptionChange}
-              fullWidth
-              style={{
-                padding: '0 0 10px 0'
-              }}
-              margin='normal'
-            />
+              <Fragment />
 
-            <Fragment />
+              <SkillSelector
+                onSkillChange={this.handleSkillsChanges}
+                skills={skills}
+                allSkills={allSkills}
+              />
 
-            {/* Mapeo el array de objetos con el index del componente(nativo de react) 
+              {/* Mapeo el array de objetos con el index del componente(nativo de react) 
             para saber que posicion en el array se debe modificar
             Le paso el objeto completo (ITEM), la key y la funcion handleItemChange.
 
@@ -189,9 +216,9 @@ class ProjectForm extends Component {
 
              */}
 
-            {/* A continuacion se agrega el componente de Requerimientos */}
+              {/* A continuacion se agrega el componente de Requerimientos */}
 
-            {/* {projectRequirements.map((item, index) => (
+              {/* {projectRequirements.map((item, index) => (
               <ProjectRequirements
                 key={item.key}
                 item={item}
@@ -201,26 +228,27 @@ class ProjectForm extends Component {
               />
             ))} */}
 
-            <div style={buttonTileStyle.container}>
-              <Button
-                type='submit'
-                variant='rounded'
-                color='secondary'
-                onClick={() => {
-                  let data = JSON.stringify(this.state, null, 2)
-                }}
-              >
-                Postear
-              </Button>
-            </div>
-          </form>
-          {/* <Button
+              <div style={buttonTileStyle.container}>
+                <Button
+                  type='submit'
+                  variant='rounded'
+                  color='secondary'
+                  onClick={() => {
+                    let data = JSON.stringify(this.state, null, 2)
+                  }}
+                >
+                  Crear
+                </Button>
+              </div>
+            </form>
+            {/* <Button
               variant='fab'
               color='primary'
               onClick={this.addNewRequirements}
             >
               +
             </Button> */}
+          </Paper>
         </Grid>
       </Grid>
     )

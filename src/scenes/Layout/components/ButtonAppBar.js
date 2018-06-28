@@ -1,5 +1,5 @@
 //@ts-check
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { withStyles } from 'material-ui/styles'
 import AppBar from 'material-ui/AppBar'
@@ -8,7 +8,7 @@ import Typography from 'material-ui/Typography'
 import IconButton from 'material-ui/IconButton'
 // import AccountCircle from 'mateial-ui-icons/AccountCircle';
 import MenuIcon from '@material-ui/icons/Menu'
-
+import SearchBar from './SearchBar'
 import Menu, { MenuItem } from 'material-ui/Menu'
 
 import { userServices } from '../../../services/userServices'
@@ -18,8 +18,11 @@ const styles = {
   root: {
     flexGrow: 1
   },
-  flex: {
-    flex: 1
+  title: {
+    flexGrow: 1
+  },
+  menuBtn: {
+    flexGrow: 0
   },
   menuButton: {
     marginLeft: -12,
@@ -27,6 +30,12 @@ const styles = {
   },
   button: {
     color: 'primary'
+  },
+  searchBarRoot: {
+    width: '50%',
+    position: 'center',
+    paddingLeft: '90px',
+    flexGrow: 2
   }
 }
 
@@ -57,57 +66,62 @@ class ButtonAppBar extends React.Component {
       <div style={this.props.style}>
         <AppBar position='static'>
           <Toolbar>
-            <Typography variant='title' color='inherit' style={styles.flex}>
+            <Typography variant='title' color='inherit' style={styles.title}>
               {this.props.title}
             </Typography>
-            <div style={{ flex: 1 }} />
             {auth && (
-              <div>
-                <IconButton
-                  aria-owns={open ? 'menu-appbar' : null}
-                  aria-haspopup='true'
-                  onClick={this.handleMenu}
-                  color='inherit'
-                >
-                  <MenuIcon />
-                </IconButton>
+              <Fragment>
+                <div style={styles.searchBarRoot}>
+                  <SearchBar />
+                </div>
 
-                <Menu
-                  id='menu-appbar'
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right'
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem
-                    onClick={this.handleClose}
-                    component={(props) => (
-                      <Link {...props} to='/mainpage/profile' />
-                    )}
+                <div style={styles.menuBtn}>
+                  <IconButton
+                    aria-owns={open ? 'menu-appbar' : null}
+                    aria-haspopup='true'
+                    onClick={this.handleMenu}
+                    color='inherit'
                   >
-                    Profile
-                  </MenuItem>
+                    <MenuIcon />
+                  </IconButton>
 
-                  <MenuItem
-                    onClick={this.handleClose}
-                    component={(props) => (
-                      <Link {...props} to='/mainpage/home' />
-                    )}
+                  <Menu
+                    id='menu-appbar'
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right'
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right'
+                    }}
+                    open={open}
+                    onClose={this.handleClose}
                   >
-                    Home
-                  </MenuItem>
-                  <MenuItem onClick={() => logoutAndRedirect()}>
-                    Logout
-                  </MenuItem>
-                </Menu>
-              </div>
+                    <MenuItem
+                      onClick={this.handleClose}
+                      component={(props) => (
+                        <Link {...props} to='/mainpage/profile' />
+                      )}
+                    >
+                      Profile
+                    </MenuItem>
+
+                    <MenuItem
+                      onClick={this.handleClose}
+                      component={(props) => (
+                        <Link {...props} to='/mainpage/home' />
+                      )}
+                    >
+                      Home
+                    </MenuItem>
+                    <MenuItem onClick={() => logoutAndRedirect()}>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </div>
+              </Fragment>
             )}
           </Toolbar>
         </AppBar>

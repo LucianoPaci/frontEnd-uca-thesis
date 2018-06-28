@@ -4,7 +4,8 @@ const initialState = {
   isSearching: false,
   projectDetails: null,
   allProjects: null,
-  isPosting: false
+  isPosting: false,
+  allSkills: []
 }
 
 export default function reducer (state = initialState, action) {
@@ -61,6 +62,26 @@ export default function reducer (state = initialState, action) {
       return {
         ...state,
         isPosting: false
+      }
+
+    case ActionTypes.FETCHING_ALL_SKILLS:
+      return {
+        ...state,
+        isSearching: true
+      }
+
+    case ActionTypes.FETCHING_ALL_SKILLS_SUCCESS:
+      return {
+        ...state,
+        isSearching: false,
+        allSkills: action.payload
+      }
+
+    case ActionTypes.FETCHING_ALL_SKILLS_ERROR:
+      return {
+        ...state,
+        isSearching: false,
+        error: action.payload.toString() //Agrega el atributo 'error' al objeto
       }
 
     default:

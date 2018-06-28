@@ -27,6 +27,5 @@ const configureStore = createStore(
       ((x) => x)
   )
 )
-console.log(configureStore.getState())
 
 export default configureStore

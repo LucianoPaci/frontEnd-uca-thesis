@@ -10,6 +10,8 @@ import SendIcon from 'material-ui-icons/Send'
 import ExpandLess from 'material-ui-icons/ExpandLess'
 import ExpandMore from 'material-ui-icons/ExpandMore'
 import StarBorder from 'material-ui-icons/StarBorder'
+import DateRange from 'material-ui-icons/DateRange'
+import School from 'material-ui-icons/School'
 import Divider from 'material-ui/Divider'
 import { Link } from 'react-router-dom'
 
@@ -42,14 +44,14 @@ class NestedList extends React.Component {
             component={(props) => <Link {...props} to='/project/create' />}
           >
             <ListItemIcon>
-              <SendIcon />
+              <School />
             </ListItemIcon>
             <ListItemText inset primary='Proyectos' />
           </ListItem>
           <Divider />
           <ListItem button value={<Link to='www.google.com' />}>
             <ListItemIcon>
-              <DraftsIcon />
+              <DateRange />
             </ListItemIcon>
             <ListItemText inset primary='Calendario' />
           </ListItem>

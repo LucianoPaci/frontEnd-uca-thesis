@@ -20,13 +20,13 @@ class HomePage extends Component {
       ? JSON.parse(localStorage.getItem('user')).token
       : null
 
-    console.log(this.state)
     getAllProjects(user)
   }
 
   render () {
     const { projects, isFetching } = this.props
 
+    console.log(projects)
     return (
       <Fragment>
         <Grid
@@ -69,12 +69,7 @@ class HomePage extends Component {
             {isFetching ? <CircularIndeterminate /> : null}
 
             {!isFetching && projects ? (
-              projects.map((project) => (
-                <SocialFeedCards
-                  name={project.name}
-                  description={project.description}
-                />
-              ))
+              projects.map((project) => <SocialFeedCards project={project} />)
             ) : null}
           </Grid>
         </Grid>
